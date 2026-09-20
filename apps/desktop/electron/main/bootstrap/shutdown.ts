@@ -9,7 +9,6 @@ import type { PersistenceOutbox } from "../persistence-outbox";
 import type { PluginPanelHost } from "../plugin-panel-host";
 import type { PluginRuntime } from "../plugin-runtime";
 import type { PluginViewHost } from "../plugin-view-host";
-import type { AppUpdaterController } from "../updater";
 import type { UserMcpRuntime } from "../user-mcp";
 import type { McpControlServer } from "../mcp-control";
 import type { McpOAuthManager } from "../mcp-oauth";
@@ -43,7 +42,6 @@ export type ShutdownDependencies = {
   mcpOAuth?: Pick<McpOAuthManager, "disposeAll">;
   browserPane: Pick<BrowserPane, "dispose">;
   pluginViews: Pick<PluginViewHost, "dispose">;
-  updater: Pick<AppUpdaterController, "dispose" | "isInstallingUpdate">;
   logger: Pick<Logger, "app">;
   confirmQuitDialog: () => Promise<boolean>;
 };
@@ -64,7 +62,6 @@ export function registerShutdownHandlers({
   mcpOAuth,
   browserPane,
   pluginViews,
-  updater,
   logger,
   confirmQuitDialog,
 }: ShutdownDependencies): void {
@@ -96,13 +93,7 @@ export function registerShutdownHandlers({
       process.env.PI_DESKTOP_BOOT_PROBE === "1" ||
       process.env.PI_DESKTOP_SUPERVISION_PROBE === "1" ||
       process.env.PI_DESKTOP_CAPTURE === "1";
-    // Skip confirmation for the quit that an in-app update performs. The
-    // installer for that update was already spawned before app.quit(), and it
-    // aborts once the app stays alive for a few seconds, so deferring this quit
-    // behind a dialog fails the update. There is no decision left either: the
-    // user chose "restart to update" to get here.
-    const isUpdateRestart = updater.isInstallingUpdate();
-    if (!state.quitConfirmed && !isAutomatedMode && !isUpdateRestart) {
+    if (!state.quitConfirmed && !isAutomatedMode) {
       state.quitConfirmed = true;
       void confirmQuitDialog().then((confirmed) => {
         if (confirmed) {
@@ -147,7 +138,6 @@ export function registerShutdownHandlers({
       const hostShutdown = getHost()?.dispose();
       const mcpShutdown = getMcpControl()?.stop();
       const pluginPanelShutdown = pluginPanels.closeAll();
-      updater.dispose();
       logger.app("lifecycle", "info", "app shutdown");
       // Plugin hosts are stopped as a shutdown, not left for the process teardown
       // to kill: an unannounced exit is indistinguishable from a crash, and would

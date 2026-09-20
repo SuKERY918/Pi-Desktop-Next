@@ -27,7 +27,6 @@ import {
   type McpControlInvokeInput,
 } from "../mcp-control";
 import type { ModelsDevCatalog } from "../models-dev-catalog";
-import type { AppUpdaterController } from "../updater";
 import type { HostProcess } from "../host-process";
 import type { Logger } from "../logger";
 import type { PluginRuntime } from "../plugin-runtime";
@@ -69,7 +68,6 @@ export type StartupDependencies = {
   state: StartupState;
   dataDir: string;
   logger: Logger;
-  updater: AppUpdaterController;
   modelsDevCatalog: ModelsDevCatalog;
   plugins: PluginRuntime;
   activeTurns: Map<string, string>;
@@ -122,7 +120,6 @@ export function registerApplicationStartup(deps: StartupDependencies): void {
       state,
       dataDir,
       logger,
-      updater,
       modelsDevCatalog,
       plugins,
       activeTurns,
@@ -308,10 +305,6 @@ export function registerApplicationStartup(deps: StartupDependencies): void {
         state.mcpControl = null;
       }
     }
-    // GitHub discovery is delayed and time-bounded. Never start it before the
-    // first window exists: a hung feed used to sit in "checking" for ~60s and
-    // compete with boot for the net stack.
-    updater.startAutoCheck();
     // createWindow awaits the initial load (loadFile resolves on
     // did-finish-load), so the page is up; give React a beat to mount its
     // event subscriptions before pushing the boot outcome.

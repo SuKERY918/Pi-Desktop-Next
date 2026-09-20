@@ -9,7 +9,6 @@ const [
   releaseWorkflowSource,
   desktopPackageSource,
   linuxPackageWorkflowSource,
-  mirrorToCnbWorkflowSource,
   agentRuntimePackageSource,
   i18nPackageSource,
   pluginSdkPackageSource,
@@ -21,7 +20,6 @@ const [
   read("../../../.github/workflows/release.yml"),
   read("../package.json"),
   read("../../../.github/workflows/linux-package.yml"),
-  read("../../../.github/workflows/mirror-to-cnb.yml"),
   read("../../../packages/agent-runtime/package.json"),
   read("../../../packages/i18n/package.json"),
   read("../../../packages/plugin-sdk/package.json"),
@@ -159,7 +157,7 @@ test("release workflow publishes the Linux ASAR beside installers", () => {
   );
   assert.match(
     releaseAsarScriptSource,
-    /PI-Desktop-\$\{releaseVersion\}-linux-x64\.asar/,
+    /Pi-Desktop-Next-\$\{releaseVersion\}-linux-x64\.asar/,
   );
 });
 
@@ -178,12 +176,12 @@ test("release matrix packages both native macOS architectures", () => {
   );
   assert.equal(
     JSON.parse(desktopPackageSource).build.mac.artifactName,
-    "PI-Desktop-${version}-${arch}-mac.${ext}",
+    "Pi-Desktop-Next-${version}-${arch}-mac.${ext}",
     "macOS ZIP names include the target architecture",
   );
   assert.equal(
     JSON.parse(desktopPackageSource).build.dmg.artifactName,
-    "PI-Desktop-${version}-${arch}.${ext}",
+    "Pi-Desktop-Next-${version}-${arch}.${ext}",
     "macOS DMG names include the target architecture",
   );
   assert.match(
@@ -201,11 +199,12 @@ test("release matrix packages both native macOS architectures", () => {
     /name: Verify macOS artifact names[\s\S]*?Expected exactly one[\s\S]*?Unexpected unlabelled or wrong-architecture macOS artifact/,
     "macOS publication rejects ambiguous artifact names",
   );
-  assert.match(
-    releaseWorkflowSource,
-    /latest-mac-\$\{\{ matrix\.arch \}\}\.yml/,
-  );
-  assert.match(releaseWorkflowSource, /Merge macOS updater metadata[\s\S]*?ruby/);
+  // The app ships no in-app updater, so the release must not carry the
+  // electron-updater latest*.yml feeds (or the steps that assembled them).
+  assert.doesNotMatch(releaseWorkflowSource, /latest-mac-\$\{\{ matrix\.arch \}\}\.yml/);
+  assert.doesNotMatch(releaseWorkflowSource, /Merge macOS updater metadata/);
+  assert.doesNotMatch(releaseWorkflowSource, /release\/latest\*\.yml/);
+  assert.doesNotMatch(releaseWorkflowSource, /electron-updater/);
 });
 
 test("macOS release signing is required on tag pushes", () => {
@@ -255,7 +254,7 @@ test("macOS release signing is required on tag pushes", () => {
   assert.doesNotMatch(signedBlock, /-c\.mac\.identity=/);
   assert.doesNotMatch(signedBlock, /CSC_NAME: "Developer ID Application:/);
   assert.match(signedBlock, /-c\.mac\.notarize=true/);
-  // The single "signing PI-Desktop.app" line electron-builder prints does not
+  // The single "signing Pi-Desktop-Next.app" line electron-builder prints does not
   // tell walking, per-file codesign, silent retries, and the Apple
   // notarization wait apart; the signing trace and the watchdog carry the rest.
   assert.match(
@@ -396,40 +395,4 @@ test("macOS signing instrumentation stays out of the Windows and Linux lanes", (
   const unsignedBlock = stepBlock("Package unsigned macOS installer");
   assert.ok(unsignedBlock, "unsigned macOS debug package step is missing");
   assert.doesNotMatch(unsignedBlock, instrumentation);
-});
-
-test("GitHub releases trigger the CNB mirror pipeline with a JSON payload", () => {
-  assert.match(
-    mirrorToCnbWorkflowSource,
-    /release:\s+types:\s+\[published, edited\]/,
-  );
-  assert.match(
-    mirrorToCnbWorkflowSource,
-    /workflow_dispatch:\s+inputs:\s+tag:/,
-  );
-  assert.match(
-    mirrorToCnbWorkflowSource,
-    /if: github\.repository == 'vastsa\/PI-Desktop'/,
-  );
-  assert.match(
-    mirrorToCnbWorkflowSource,
-    /CNB_MIRROR_TOKEN: \$\{\{\s*secrets\.CNB_MIRROR_TOKEN\s*\}\}/,
-  );
-  assert.match(
-    mirrorToCnbWorkflowSource,
-    /Missing repository secret CNB_MIRROR_TOKEN/,
-  );
-  assert.match(
-    mirrorToCnbWorkflowSource,
-    /https:\/\/api\.cnb\.cool\/aixk\/Pi-Desktop\/-\/build\/start/,
-  );
-  assert.match(mirrorToCnbWorkflowSource, /event: "api_trigger_mirror"/);
-  assert.match(mirrorToCnbWorkflowSource, /env: \{ MIRROR_TAGS: \$tag \}/);
-  assert.match(mirrorToCnbWorkflowSource, /jq -n --arg tag "\$MIRROR_TAG"/);
-  assert.match(mirrorToCnbWorkflowSource, /curl --fail-with-body/);
-  assert.doesNotMatch(
-    mirrorToCnbWorkflowSource,
-    /-d ".*github\.event\.release\.tag_name/,
-    "JSON payload must not interpolate the release tag through YAML string escaping",
-  );
 });

@@ -12,7 +12,7 @@ every installation has a file view out of the box (ADR 0241).
 | Tag | `v0.5.2` |
 | Commit | `d36ebe9f7fb82ee71e87670b0a65403660b18a00` |
 | License | MIT (see `LICENSE`; upstream ships no license file) |
-| Marketplace | published to the plugin center at <https://plugins.aiuo.net/console/publish/upload>: `pi.file-manager` 0.5.2, audit passed, artifact `c8416b755e5624ad30110176caa512cd433fdf699ef32c7a2ba2df7f2df2b0f5` (1462096 bytes) |
+| Marketplace | published to the plugin center: `pi.file-manager` 0.5.2, audit passed, artifact `c8416b755e5624ad30110176caa512cd433fdf699ef32c7a2ba2df7f2df2b0f5` (1462096 bytes) |
 
 The tag is pushed and the release is published, so a marketplace-installed 0.5.1
 is now offered 0.5.2 from the marketplace as well as from this bundled copy.
@@ -26,9 +26,10 @@ Both paths ship the same bytes.
 > such a package as four blockers before it can be submitted — pack from a copy
 > of the tagged tree with `views-src/` removed instead.
 
-The files below are byte-identical to that commit, except for the one manifest
-field listed under local changes. Line endings are LF: the upstream commit
-stores LF, and this repository's `.gitattributes` keeps it that way.
+The files below are byte-identical to that commit, except for the local changes
+recorded below: the one manifest field, and the three host-app rebrandings.
+Line endings are LF: the upstream commit stores LF, and this repository's
+`.gitattributes` keeps it that way.
 
 ## Upstream checksums (sha256)
 
@@ -45,7 +46,7 @@ directory carries the built view the plugin publishes, not its React source.
 
 ## Local changes
 
-Two, so a re-sync stays a copy:
+Five, so a re-sync stays a copy:
 
 - `manifest.json` gains `"license": "MIT"` (after `author`), making the vendored
   copy 14191 bytes
@@ -62,6 +63,18 @@ Two, so a re-sync stays a copy:
   ancestor's `"module"`, which is why the marker cannot live one directory up.
   In a packaged app the file is inert, and deleting it only costs the developer
   experience, never a user.
+- `main.js`, `README.md` and `views/assets/index.js` **rename the host app**
+  from `PI-Desktop` to `Pi-Desktop-Next` in the strings a user reads — a header
+  comment, three README lines, and the view's untranslated bridge error plus its
+  English and Chinese `errNoBridge` messages. This distribution ships the app
+  under a new name, so the vendored copy must name the app the user actually
+  runs; the rename lands here rather than in a fork of the upstream tag:
+  - `main.js` 63239 bytes
+    (`16e5995cf7e95941d5a3a2922e8b3a8b73f443e3456b908f4bda17c2cd452f2a`)
+  - `README.md` 20054 bytes
+    (`b371e81701a8fefa8a6a4b309f7f3405a385ffba0d0887d1ec46ba7fab5aba86`)
+  - `views/assets/index.js` 1345432 bytes
+    (`df48c5ff6692e9c14bcdbda271ad7f0ff3c0729645fe262b64de9565b6bce298`)
 
 ## Re-syncing a newer release
 
@@ -72,8 +85,11 @@ Two, so a re-sync stays a copy:
    tag's copies, **as LF**: `git archive` applies the checkout's line-ending
    conversion, so extract the blobs from the working tree (or with
    `git cat-file blob`) instead of from an archive.
-3. Re-apply `"license": "MIT"` to `manifest.json`, and re-create
-   `package.json` — the marker is local and the tag does not carry it.
+3. Re-apply `"license": "MIT"` to `manifest.json`, re-create `package.json`
+   (the marker is local and the tag does not carry it), and re-apply the host
+   rename from `PI-Desktop` to `Pi-Desktop-Next` in `main.js`, `README.md` and
+   `views/assets/index.js` — the tag names the upstream host, which this
+   distribution no longer ships.
 4. Update `Origin`, the checksum table and the release section here, and the
    commit hash `bundled-plugins.test.mjs` pins, then run
    `node --test test/bundled-plugins.test.mjs` in `apps/desktop`.

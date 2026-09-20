@@ -1,6 +1,6 @@
 # Sample Project
 
-Fixture used by PI-Desktop e2e scenarios.
+Fixture used by Pi-Desktop-Next e2e scenarios.
 
 ## Structure
 

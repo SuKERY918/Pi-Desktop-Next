@@ -396,13 +396,6 @@ export function useAppShellRuntime() {
           case "openLogs":
             await api.openLogs();
             break;
-          case "checkForUpdates": {
-            const updateState = await api.updatesCheck();
-            if (updateState.status === "up-to-date") {
-              showToast(t("updates.upToDate"), { variant: "success" });
-            }
-            break;
-          }
         }
       } catch (menuError) {
         showToast(

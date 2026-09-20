@@ -9,15 +9,15 @@ const sharedPackageJson = JSON.parse(
   await readFile(new URL("../../../packages/shared/package.json", import.meta.url), "utf8"),
 );
 const macOpenFixNote = await readFile(
-  new URL("../PI-Desktop-macOS-opening-help.txt", import.meta.url),
+  new URL("../Pi-Desktop-Next-macOS-opening-help.txt", import.meta.url),
   "utf8",
 );
 const macOpenScript = await readFile(
-  new URL("../PI-Desktop-macOS-open.command", import.meta.url),
+  new URL("../Pi-Desktop-Next-macOS-open.command", import.meta.url),
   "utf8",
 );
 const macOpenScriptStat = await stat(
-  new URL("../PI-Desktop-macOS-open.command", import.meta.url),
+  new URL("../Pi-Desktop-Next-macOS-open.command", import.meta.url),
 );
 const dmgBackground = await readFile(
   new URL("../build/dmg-background.png", import.meta.url),
@@ -38,10 +38,10 @@ const pluginPanelPreloadSource = await readFile(
   "utf8",
 );
 
-test("packaging installs only the updater runtime dependency", () => {
-  assert.deepEqual(Object.keys(packageJson.dependencies).sort(), [
-    "electron-updater",
-  ]);
+test("packaging ships no external runtime dependency tree", () => {
+  // Every runtime module is compiled into the asar by electron-vite; there is
+  // no packaged node_modules dependency left (electron-updater was the last).
+  assert.equal(packageJson.dependencies, undefined);
 
   for (const dependency of [
     "@pi-desktop/agent-runtime",
@@ -123,9 +123,10 @@ test("main bundles JavaScript dependencies and externalizes only runtime modules
   assert.doesNotMatch(viteConfigSource, /externalizeDepsPlugin\s*\(/);
   // jiti is listed so the trusted-extension loader's lazy import never
   // enters the main bundle; main itself never loads it (spec 16 §4.2).
-  assert.match(viteConfigSource, /external:\s*\["electron-updater", "jiti", "jiti\/static"\]/);
+  assert.match(viteConfigSource, /external:\s*\["jiti", "jiti\/static"\]/);
   assert.doesNotMatch(viteConfigSource, /node-pty/);
-  assert.doesNotMatch(JSON.stringify(packageJson.dependencies), /node-pty/);
+  // No packaged runtime dependency tree can reintroduce a native PTY addon.
+  assert.equal(packageJson.dependencies, undefined);
 });
 
 test("sandbox preload entries use standalone shared subpath bundles", () => {
@@ -236,8 +237,8 @@ test("macOS targets follow the native architecture selected by the runner", () =
 
 test("macOS DMG is a two-icon install; ZIP keeps the unsigned helper", () => {
   assert.deepEqual(packageJson.build.mac.extraDistFiles, [
-    "PI-Desktop-macOS-open.command",
-    "PI-Desktop-macOS-opening-help.txt",
+    "Pi-Desktop-Next-macOS-open.command",
+    "Pi-Desktop-Next-macOS-opening-help.txt",
   ]);
   assert.equal(packageJson.build.dmg.background, "build/dmg-background.png");
   assert.equal(packageJson.build.dmg.icon, "build/icon.icns");
@@ -250,7 +251,7 @@ test("macOS DMG is a two-icon install; ZIP keeps the unsigned helper", () => {
   ]);
   assert.doesNotMatch(
     JSON.stringify(packageJson.build.dmg.contents),
-    /PI-Desktop-macOS-open\.command|Open PI-Desktop\.command|opening-help|If app won't open/,
+    /Pi-Desktop-Next-macOS-open\.command|Open Pi-Desktop-Next\.command|opening-help|If app won't open/,
     "the DMG must not expose the unsigned helper or opening note",
   );
   assert.deepEqual([...dmgBackground.subarray(0, 8)], [
@@ -266,14 +267,14 @@ test("macOS DMG is a two-icon install; ZIP keeps the unsigned helper", () => {
   assert.ok(macOpenScriptStat.mode & 0o111, "opening helper must be executable");
   assert.match(
     macOpenFixNote,
-    /xattr -r -d com\.apple\.quarantine \/Applications\/PI-Desktop\.app/,
+    /xattr -r -d com\.apple\.quarantine \/Applications\/Pi-Desktop-Next\.app/,
   );
-  assert.match(macOpenFixNote, /trusted PI-Desktop source/);
+  assert.match(macOpenFixNote, /trusted Pi-Desktop-Next source/);
   assert.match(macOpenFixNote, /Signed and\s+notarized\s+builds do not need/);
-  assert.match(macOpenFixNote, /PI-Desktop-macOS-open\.command/);
+  assert.match(macOpenFixNote, /Pi-Desktop-Next-macOS-open\.command/);
   assert.match(macOpenScript, /\/Applications\/\$\{APP_BUNDLE_NAME\}/);
   assert.match(macOpenScript, /CFBundleIdentifier/);
-  assert.match(macOpenScript, /net\.aiuo\.pi-desktop/);
+  assert.match(macOpenScript, /io\.github\.sukery918\.pi-desktop-next/);
   assert.match(macOpenScript, /\/usr\/bin\/xattr -r -d com\.apple\.quarantine/);
   assert.match(macOpenScript, /\/usr\/bin\/open/);
   assert.doesNotMatch(macOpenScript, /\bsudo\s+\//);

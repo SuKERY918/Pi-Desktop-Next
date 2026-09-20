@@ -264,8 +264,8 @@ mod tests {
     #[test]
     fn the_endpoint_keeps_the_catalogs_origin() {
         assert_eq!(
-            endpoint_for("https://plugins.aiuo.net/catalog.json").as_deref(),
-            Some("https://plugins.aiuo.net/api/v1/download/resolve")
+            endpoint_for("https://plugins.example.com/catalog.json").as_deref(),
+            Some("https://plugins.example.com/api/v1/download/resolve")
         );
         assert_eq!(
             endpoint_for("http://127.0.0.1:8787/catalog.json").as_deref(),
@@ -274,7 +274,7 @@ mod tests {
         );
         assert_eq!(endpoint_for("file:///tmp/catalog.json"), None);
         assert_eq!(
-            endpoint_for("https://user:secret@plugins.aiuo.net/catalog.json"),
+            endpoint_for("https://user:secret@plugins.example.com/catalog.json"),
             None,
             "a catalog url carrying credentials is not one to send a device id to"
         );

@@ -89,7 +89,7 @@ test("local MCP control server authenticates, discovers, and invokes desktop ope
     invoke: async (channel, args) => {
       calls.push({ channel, args });
       if (channel === "pi-desktop/app/getVersion") {
-        return { name: "PI-Desktop", version: "test" };
+        return { name: "Pi-Desktop-Next", version: "test" };
       }
       if (channel === "pi-desktop/project/set") {
         return { workspace: { path: args[0], name: "fixture" } };

@@ -11,7 +11,6 @@ import { ProjectCreateDialog } from "../../components/ProjectCreateDialog";
 import { SearchDialog } from "../../components/SearchDialog";
 import { Sidebar } from "../../components/Sidebar";
 import { ToastHost } from "../../components/Toast";
-import { UpdateBanner } from "../../components/UpdateBanner";
 import { cx, TooltipButton } from "../../components/ui";
 import { WindowControls } from "../../components/WindowControls";
 import { WorkPanel } from "../../components/workpanel/WorkPanel";
@@ -94,7 +93,6 @@ export function AppShell() {
           <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
           <ToastHost />
           <ExtensionPromptHost />
-          <UpdateBanner />
         </>
       );
     } else {
@@ -174,7 +172,6 @@ export function AppShell() {
                 )}
               </div>
             )}
-            <UpdateBanner />
 
             {backendDown && (
               <div

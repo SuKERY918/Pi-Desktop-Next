@@ -403,7 +403,7 @@ export class TrustedExtensionRunner {
       const reportStub = (symbol: string) => {
         if (reportedStubs.has(symbol)) return;
         reportedStubs.add(symbol);
-        this.report(spec.id, "stub_symbol", `pi-tui symbol "${symbol}" is a no-op in PI-Desktop`, symbol);
+        this.report(spec.id, "stub_symbol", `pi-tui symbol "${symbol}" is a no-op in Pi-Desktop-Next`, symbol);
       };
       setStubSymbolReporter(spec.id, reportStub);
       const virtualModules = createVirtualModules({ extensionId: spec.id });
@@ -625,7 +625,7 @@ export class TrustedExtensionRunner {
       this.report(
         extension.spec.id,
         "unsupported_api",
-        `${member} is not available in PI-Desktop`,
+        `${member} is not available in Pi-Desktop-Next`,
         member,
       );
       return returns;

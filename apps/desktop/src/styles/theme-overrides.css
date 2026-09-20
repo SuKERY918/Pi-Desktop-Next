@@ -157,18 +157,6 @@
   white-space: nowrap;
 }
 
-.footer-build.has-update {
-  color: var(--ds-text-primary);
-}
-
-.footer-build-dot {
-  width: 5px;
-  height: 5px;
-  flex: 0 0 auto;
-  border-radius: var(--radius-full);
-  background: var(--ds-accent);
-}
-
 .footer-actions {
   display: flex;
   align-items: center;

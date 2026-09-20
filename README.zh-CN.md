@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="docs/image/readme/logo.png" alt="PI-Desktop" width="108" />
+<img src="docs/image/readme/logo.png" alt="Pi-Desktop-Next" width="108" />
 
-# PI-Desktop
+# Pi-Desktop-Next
 
 ### 给 AI 编程 Agent 一个真正的桌面工作台。
 
@@ -12,49 +12,43 @@
 
 <br />
 
-[![Release](https://img.shields.io/github/v/release/vastsa/PI-Desktop?label=release)](https://github.com/vastsa/PI-Desktop/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/vastsa/PI-Desktop/total?label=downloads)](https://github.com/vastsa/PI-Desktop/releases)
-[![Stars](https://img.shields.io/github/stars/vastsa/PI-Desktop?style=flat&label=stars)](https://github.com/vastsa/PI-Desktop/stargazers)
-[![CI](https://github.com/vastsa/PI-Desktop/actions/workflows/ci.yml/badge.svg)](https://github.com/vastsa/PI-Desktop/actions/workflows/ci.yml)
-[![License](https://img.shields.io/github/license/vastsa/PI-Desktop)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/SuKERY918/Pi-Desktop-Next?label=release)](https://github.com/SuKERY918/Pi-Desktop-Next/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/SuKERY918/Pi-Desktop-Next/total?label=downloads)](https://github.com/SuKERY918/Pi-Desktop-Next/releases)
+[![Stars](https://img.shields.io/github/stars/SuKERY918/Pi-Desktop-Next?style=flat&label=stars)](https://github.com/SuKERY918/Pi-Desktop-Next/stargazers)
+[![CI](https://github.com/SuKERY918/Pi-Desktop-Next/actions/workflows/ci.yml/badge.svg)](https://github.com/SuKERY918/Pi-Desktop-Next/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/SuKERY918/Pi-Desktop-Next)](LICENSE)
 
 <br />
 
-**[立即下载](https://github.com/vastsa/PI-Desktop/releases/latest)** ·
-[使用文档](https://pi-docs.aiuo.net/) ·
+**[立即下载](https://github.com/SuKERY918/Pi-Desktop-Next/releases/latest)** ·
+[使用文档](docs/guide/index.md) ·
 [界面预览](docs/guide/screenshots.md) ·
 [开发插件](docs/plugin-development.md) ·
 [English](README.md)
 
 <br />
 
-<img src="docs/image/readme/home.webp" alt="PI-Desktop 桌面工作台" width="94%" />
+<img src="docs/image/readme/home.webp" alt="Pi-Desktop-Next 桌面工作台" width="94%" />
 
 <br />
 
-**不绑 PI-Desktop 账号 · 不强制走中转服务 · 不锁定编辑器**
+**不绑 Pi-Desktop-Next 账号 · 不强制走中转服务 · 不锁定编辑器**
 
 <sub>项目和会话留在你的电脑里，模型请求直接发送到你自己配置的服务商或 API Endpoint。</sub>
-
-<br /><br />
-
-<a href="https://trendshift.io/repositories/178787?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-178787" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/178787" alt="vastsa/PI-Desktop | Trendshift" width="230" height="51"/></a>
-&nbsp;
-<a href="https://www.producthunt.com/products/pi-desktop?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-pi-desktop" target="_blank" rel="noopener noreferrer"><img alt="PI-Desktop on Product Hunt" width="230" height="50" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1245457&amp;theme=dark&amp;t=1788955688339"/></a>
 
 </div>
 
 ---
 
 > [!IMPORTANT]
-> **PI-Desktop 目前仍处于 Early Preview 阶段。**
+> **Pi-Desktop-Next 目前仍处于 Early Preview 阶段。**
 > 它已经可以承担真实的编程工作流，但 API、扩展接口和部分桌面行为仍会持续演进。
 
 ## 不是又一个 AI 聊天框
 
 现在很多 Coding Agent，要么塞在终端里，要么绑在某个 IDE 里，要么必须依赖云端服务。
 
-**PI-Desktop 想做的，是给 AI Agent 一个真正属于自己的桌面工作台。**
+**Pi-Desktop-Next 想做的，是给 AI Agent 一个真正属于自己的桌面工作台。**
 
 项目、会话、文件、Diff、预览、模型、权限、插件、长任务，全都放在一个独立桌面环境里。
 
@@ -94,7 +88,7 @@ OpenAI、Anthropic、本地模型、自建网关、OpenAI Compatible API，都�
 
 Agent 可以读文件、改代码、跑命令。
 
-但涉及高权限操作时，会经过 PI-Desktop 的权限层。
+但涉及高权限操作时，会经过 Pi-Desktop-Next 的权限层。
 
 你可以看 Diff、看命令输出、看执行结果，也可以决定这个会话到底放多大的权限。
 
@@ -153,14 +147,14 @@ Skills、MCP、Subagents、pi extensions、Plugins 都可以接。
 <tr>
 <td width="50%">
 
-<img src="docs/image/readme/chat_en.png" alt="PI-Desktop 会话" />
+<img src="docs/image/readme/chat_en.png" alt="Pi-Desktop-Next 会话" />
 
 <p align="center"><sub>长会话、消息导航、持续工作流</sub></p>
 
 </td>
 <td width="50%">
 
-<img src="docs/image/readme/model_en.png" alt="PI-Desktop 模型切换" />
+<img src="docs/image/readme/model_en.png" alt="Pi-Desktop-Next 模型切换" />
 
 <p align="center"><sub>每个会话都可以自由切换模型、Provider 与推理等级</sub></p>
 
@@ -169,14 +163,14 @@ Skills、MCP、Subagents、pi extensions、Plugins 都可以接。
 <tr>
 <td width="50%">
 
-<img src="docs/image/readme/plugins_en.png" alt="PI-Desktop 插件市场" />
+<img src="docs/image/readme/plugins_en.png" alt="Pi-Desktop-Next 插件市场" />
 
 <p align="center"><sub>通过插件市场扩展整个桌面工作台</sub></p>
 
 </td>
 <td width="50%">
 
-<img src="docs/image/readme/addmodel_en.png" alt="PI-Desktop 模型配置" />
+<img src="docs/image/readme/addmodel_en.png" alt="Pi-Desktop-Next 模型配置" />
 
 <p align="center"><sub>接入你自己的模型与 API</sub></p>
 
@@ -194,11 +188,11 @@ Skills、MCP、Subagents、pi extensions、Plugins 都可以接。
 
 很多 AI 工具擅长一问一答。
 
-PI-Desktop 更关心的是另一件事：
+Pi-Desktop-Next 更关心的是另一件事：
 
 > **一个任务跑半小时、一个小时，甚至跨多次会话之后，它还能不能继续干。**
 
-因此，PI-Desktop 从一开始就围绕项目、Session 和长期任务来设计。
+因此，Pi-Desktop-Next 从一开始就围绕项目、Session 和长期任务来设计。
 
 你可以：
 
@@ -216,7 +210,7 @@ PI-Desktop 更关心的是另一件事：
 
 真正复杂的任务，不应该全部塞进一个上下文窗口里。
 
-PI-Desktop 可以把独立工作委派给后台 Subagents，例如：
+Pi-Desktop-Next 可以把独立工作委派给后台 Subagents，例如：
 
 - 探索大型代码库
 - 多文件实现
@@ -231,15 +225,15 @@ PI-Desktop 可以把独立工作委派给后台 Subagents，例如：
 
 ---
 
-## 插件不是“装饰”，而是 PI-Desktop 的第二条主线
+## 插件不是“装饰”，而是 Pi-Desktop-Next 的第二条主线
 
-我不希望 PI-Desktop 最后变成一个什么都内置、什么都越来越重的软件。
+我不希望 Pi-Desktop-Next 最后变成一个什么都内置、什么都越来越重的软件。
 
 更理想的方式是：
 
 > **核心保持克制，能力交给生态扩展。**
 
-PI-Desktop 提供多层扩展能力，从简单的 Agent 指令，到完整的桌面级插件都可以覆盖。
+Pi-Desktop-Next 提供多层扩展能力，从简单的 Agent 指令，到完整的桌面级插件都可以覆盖。
 
 ### Plugins
 
@@ -258,20 +252,20 @@ PI-Desktop 提供多层扩展能力，从简单的 Agent 指令，到完整的�
 
 官方 `pi.session-orchestrator` 插件让 Agent 可以并行协调多个持久 Worker 会话。在 Plugins 插件市场安装 `pi.session-orchestrator` 后，即可使用 `SessionTask` 工具创建、派发、监督、查询状态、等待有界结果、接收报告、取消和列出 Worker。
 
-Worker 会继承父会话的项目、Provider、模型、Thinking 等级和权限模式；它们仍是普通的 PI-Desktop 会话，可以随时打开并查看完整上下文。工作关系按父会话隔离，单个父会话最多同时运行 4 个 Worker，插件总计最多 16 个。
+Worker 会继承父会话的项目、Provider、模型、Thinking 等级和权限模式；它们仍是普通的 Pi-Desktop-Next 会话，可以随时打开并查看完整上下文。工作关系按父会话隔离，单个父会话最多同时运行 4 个 Worker，插件总计最多 16 个。
 
 <table>
 <tr>
 <td width="50%">
 
-<img src="docs/image/readme/session-orchestrator-overview.png" alt="PI-Desktop 对话编排插件协调多个 Worker 会话" />
+<img src="docs/image/readme/session-orchestrator-overview.png" alt="Pi-Desktop-Next 对话编排插件协调多个 Worker 会话" />
 
 <p align="center"><sub>在一个会话中协调多个持久 Worker</sub></p>
 
 </td>
 <td width="50%">
 
-<img src="docs/image/readme/session-orchestrator-worker.png" alt="PI-Desktop 对话编排插件的 Worker 会话" />
+<img src="docs/image/readme/session-orchestrator-worker.png" alt="Pi-Desktop-Next 对话编排插件的 Worker 会话" />
 
 <p align="center"><sub>打开 Worker 会话，独立查看执行进度</sub></p>
 
@@ -279,7 +273,7 @@ Worker 会继承父会话的项目、Provider、模型、Thinking 等级和权�
 </tr>
 </table>
 
-**[开发你的第一个 PI-Desktop 插件 →](docs/plugin-development.md)**
+**[开发你的第一个 Pi-Desktop-Next 插件 →](docs/plugin-development.md)**
 
 > [!NOTE]
 > 插件进程拥有权限控制，并与 Renderer 隔离，但它仍属于用户主动信任的代码，而不是完整的操作系统级沙箱。请只安装你信任的插件。
@@ -292,9 +286,9 @@ Skills 可以全局安装，也可以只在某个项目里启用。
 
 ### MCP
 
-通过 Model Context Protocol 接入外部工具和服务，不需要把所有功能都硬编码进 PI-Desktop。
+通过 Model Context Protocol 接入外部工具和服务，不需要把所有功能都硬编码进 Pi-Desktop-Next。
 
-PI-Desktop 本身也可以被外部 MCP Agent 控制。
+Pi-Desktop-Next 本身也可以被外部 MCP Agent 控制。
 
 启动时设置：
 
@@ -310,13 +304,13 @@ PI_DESKTOP_MCP_CONTROL=1
 
 ### pi extensions
 
-为 [pi](https://github.com/badlogic/pi-mono) CLI 编写的扩展，可以直接运行在 PI-Desktop Agent 中。
+为 [pi](https://github.com/badlogic/pi-mono) CLI 编写的扩展，可以直接运行在 Pi-Desktop-Next Agent 中。
 
 插件可以通过 `contributes.agentExtensions` 声明扩展，也可以在：
 
 **Plugins → Import pi extension**
 
-直接把现有 extension 文件或目录包装成 PI-Desktop 插件。若目录声明了生产或可选 npm `dependencies`，`PATH` 中的系统 `npm` 会在首次加载前执行有界的 registry-only 安装（`--ignore-scripts`，绝不运行第三方安装脚本）；发布版不包含独立 Node/npm。
+直接把现有 extension 文件或目录包装成 Pi-Desktop-Next 插件。若目录声明了生产或可选 npm `dependencies`，`PATH` 中的系统 `npm` 会在首次加载前执行有界的 registry-only 安装（`--ignore-scripts`，绝不运行第三方安装脚本）；发布版不包含独立 Node/npm。
 
 这些扩展可以注册：
 
@@ -332,7 +326,7 @@ PI_DESKTOP_MCP_CONTROL=1
 
 ## 模型只是零件，不应该绑死你的工作流
 
-PI-Desktop 不维护一份“官方指定模型列表”。
+Pi-Desktop-Next 不维护一份“官方指定模型列表”。
 
 你可以使用：
 
@@ -364,7 +358,7 @@ PI-Desktop 不维护一份“官方指定模型列表”。
 
 ## Local-first，但不玩文字游戏
 
-PI-Desktop 是 **Local-first**。
+Pi-Desktop-Next 是 **Local-first**。
 
 但 Local-first 不等于“永远不联网”。
 
@@ -374,10 +368,10 @@ PI-Desktop 是 **Local-first**。
 | 设置 | 保存在你的电脑 |
 | API 密钥 | 保存在操作系统 Keychain |
 | 日志 | 本地 |
-| PI-Desktop Telemetry | 无 |
+| Pi-Desktop-Next Telemetry | 无 |
 | 模型请求 | 直接发送到你配置的模型服务或 API Endpoint |
 
-PI-Desktop 不要求注册账号，也没有强制的 PI-Desktop 云端中转层。
+Pi-Desktop-Next 不要求注册账号，也没有强制的 Pi-Desktop-Next 云端中转层。
 
 如果你使用远程模型，那么模型请求所需的上下文自然会被发送给对应 Provider，具体数据处理方式取决于该 Provider 自己的隐私政策。
 
@@ -387,7 +381,7 @@ PI-Desktop 不要求注册账号，也没有强制的 PI-Desktop 云端中转层
 
 ### 1. 下载
 
-从 [GitHub Releases](https://github.com/vastsa/PI-Desktop/releases/latest) 获取最新版本。
+从 [GitHub Releases](https://github.com/SuKERY918/Pi-Desktop-Next/releases/latest) 获取最新版本。
 
 ### 2. 接入模型
 
@@ -413,13 +407,13 @@ PI-Desktop 不要求注册账号，也没有强制的 PI-Desktop 云端中转层
 
 在 Review 面板检查改动、查看命令输出、预览程序，然后继续和 Agent 协作。
 
-整个过程不用离开 PI-Desktop。
+整个过程不用离开 Pi-Desktop-Next。
 
 ---
 
 ## 下载
 
-### **[下载最新版本 →](https://github.com/vastsa/PI-Desktop/releases/latest)**
+### **[下载最新版本 →](https://github.com/SuKERY918/Pi-Desktop-Next/releases/latest)**
 
 | 平台 | 架构 | 安装包 |
 | --- | --- | --- |
@@ -458,7 +452,7 @@ ldd --version
 Linux 同时提供 `.asar` 资产，方便使用系统 Electron 重新打包：
 
 ```bash
-electron PI-Desktop-<version>-linux-x64.asar
+electron Pi-Desktop-Next-<version>-linux-x64.asar
 ```
 
 目标发行版仍需要准备对应的 native host 和 packaged resources。
@@ -470,21 +464,21 @@ electron PI-Desktop-<version>-linux-x64.asar
 
 <br />
 
-GitHub Release 上的正式 macOS 构建已使用 Developer ID 签名、公证并装订。将 `PI-Desktop.app` 移到 `/Applications` 后应可直接打开。
+GitHub Release 上的正式 macOS 构建已使用 Developer ID 签名、公证并装订。将 `Pi-Desktop-Next.app` 移到 `/Applications` 后应可直接打开。
 
 本地或未签名的调试构建仍可能带有 Apple 隔离属性。如果 macOS 提示 App 已损坏或无法打开：
 
-1. 确认安装包来自可信的 PI-Desktop 来源
-2. 将 `PI-Desktop.app` 移动到 `/Applications`
+1. 确认安装包来自可信的 Pi-Desktop-Next 来源
+2. 将 `Pi-Desktop-Next.app` 移动到 `/Applications`
 3. 运行：
 
 ```bash
-xattr -r -d com.apple.quarantine /Applications/PI-Desktop.app
+xattr -r -d com.apple.quarantine /Applications/Pi-Desktop-Next.app
 ```
 
-4. 再次打开 PI-Desktop
+4. 再次打开 Pi-Desktop-Next
 
-ZIP 包包含 `PI-Desktop-macOS-opening-help.txt` 和 `PI-Desktop-macOS-open.command`，在应用移动到 Applications 后可以执行相同的 trusted-source fallback。DMG 是双图标安装，不再放入该说明。
+ZIP 包包含 `Pi-Desktop-Next-macOS-opening-help.txt` 和 `Pi-Desktop-Next-macOS-open.command`，在应用移动到 Applications 后可以执行相同的 trusted-source fallback。DMG 是双图标安装，不再放入该说明。
 
 这个命令只会移除 Apple 的 quarantine 属性。
 
@@ -498,7 +492,7 @@ ZIP 包包含 `PI-Desktop-macOS-opening-help.txt` 和 `PI-Desktop-macOS-open.com
 
 macOS GitHub Release 产物使用 Developer ID Application `XingYu Liu (DUV63RKYTW)` 签名，并由 Apple 公证。
 
-PI-Desktop 的 Windows Release 使用 [SignPath.io](https://signpath.io/) 提供的免费代码签名服务，并通过 [SignPath Foundation](https://signpath.org/) 的证书完成签名。
+Pi-Desktop-Next 的 Windows Release 使用 [SignPath.io](https://signpath.io/) 提供的免费代码签名服务，并通过 [SignPath Foundation](https://signpath.org/) 的证书完成签名。
 
 ---
 
@@ -506,7 +500,7 @@ PI-Desktop 的 Windows Release 使用 [SignPath.io](https://signpath.io/) 提供
 
 已经在使用其它 Coding Agent？
 
-PI-Desktop 支持导入本地历史会话：
+Pi-Desktop-Next 支持导入本地历史会话：
 
 - Claude Code
 - Codex
@@ -517,13 +511,13 @@ PI-Desktop 支持导入本地历史会话：
 
 **Settings → Import**
 
-即可把已有工作带进 PI-Desktop。
+即可把已有工作带进 Pi-Desktop-Next。
 
 ---
 
 ## 架构
 
-PI-Desktop 刻意把 UI、桌面高权限能力与 Agent Loop 分开。
+Pi-Desktop-Next 刻意把 UI、桌面高权限能力与 Agent Loop 分开。
 
 ```mermaid
 flowchart TB
@@ -562,9 +556,9 @@ Electron 负责桌面生命周期与不同组件之间的协调。
 
 ---
 
-## PI-Desktop 和 Pi 是什么关系？
+## Pi-Desktop-Next 和 Pi 是什么关系？
 
-PI-Desktop 构建在优秀的 [pi-mono](https://github.com/badlogic/pi-mono) 开源生态之上。
+Pi-Desktop-Next 构建在优秀的 [pi-mono](https://github.com/badlogic/pi-mono) 开源生态之上。
 
 Agent Runtime 使用：
 
@@ -573,9 +567,9 @@ Agent Runtime 使用：
 
 如果要一句话解释：
 
-> **Pi 负责让 Agent 跑起来，PI-Desktop 负责让 Agent 真正变成一个长期可用的桌面工作台。**
+> **Pi 负责让 Agent 跑起来，Pi-Desktop-Next 负责让 Agent 真正变成一个长期可用的桌面工作台。**
 
-PI-Desktop 在此基础上增加了：
+Pi-Desktop-Next 在此基础上增加了：
 
 - 项目与 Session 管理
 - 桌面 UI
@@ -595,7 +589,7 @@ PI-Desktop 在此基础上增加了：
 
 ## 当前状态
 
-PI-Desktop 目前仍处于 Early Preview，并在高频迭代。
+Pi-Desktop-Next 目前仍处于 Early Preview，并在高频迭代。
 
 当前 **0.15.x** 已包含：
 
@@ -633,7 +627,7 @@ PI-Desktop 目前仍处于 Early Preview，并在高频迭代。
 ## 本地开发
 
 <details open>
-<summary><strong>在本地运行 PI-Desktop</strong></summary>
+<summary><strong>在本地运行 Pi-Desktop-Next</strong></summary>
 
 <br />
 
@@ -648,8 +642,8 @@ PI-Desktop 目前仍处于 Early Preview，并在高频迭代。
 ### 启动
 
 ```bash
-git clone https://github.com/vastsa/PI-Desktop.git
-cd PI-Desktop
+git clone https://github.com/SuKERY918/Pi-Desktop-Next.git
+cd Pi-Desktop-Next
 
 pnpm install
 
@@ -680,7 +674,7 @@ pnpm docs:check
 
 常用文档：
 
-- [使用文档](https://pi-docs.aiuo.net/)
+- [使用文档](docs/guide/index.md)
 - [Specification Index](docs/spec/README.md)
 - [Architecture](docs/spec/02-architecture/01-architecture.md)
 - [Product Scope](docs/spec/01-product/01-product-scope.md)
@@ -712,8 +706,8 @@ pnpm docs:check
 
 [AGENTS.md](AGENTS.md) 和 [Specification Index](docs/spec/README.md)。
 
-**[提交 Issue](https://github.com/vastsa/PI-Desktop/issues/new/choose)** ·
-[查看 Open Issues](https://github.com/vastsa/PI-Desktop/issues) ·
+**[提交 Issue](https://github.com/SuKERY918/Pi-Desktop-Next/issues/new/choose)** ·
+[查看 Open Issues](https://github.com/SuKERY918/Pi-Desktop-Next/issues) ·
 [开发插件](docs/plugin-development.md)
 
 ---
@@ -724,7 +718,7 @@ pnpm docs:check
 >
 > 不是一个天才单枪匹马写出来的，而是一支烧 Token 的 AI 包工队一起搓出来的。
 
-PI-Desktop 前后经过大量模型共同参与开发、重构、Review、设计与调试。
+Pi-Desktop-Next 前后经过大量模型共同参与开发、重构、Review、设计与调试。
 
 <details>
 <summary><strong>查看模型用量 — 已统计 27,144,044,009 Tokens</strong></summary>
@@ -769,21 +763,13 @@ PI-Desktop 前后经过大量模型共同参与开发、重构、Review、设计
 
 ---
 
-## Star History
-
-<a href="https://star-history.com/#vastsa/PI-Desktop&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=vastsa/PI-Desktop&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=vastsa/PI-Desktop&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=vastsa/PI-Desktop&type=Date" />
- </picture>
-</a>
-
----
-
 ## License
 
-PI-Desktop 使用 **GNU Lesser General Public License v3.0** 开源。
+Pi-Desktop-Next 使用 **GNU Lesser General Public License v3.0** 开源，是上游项目
+[vastsa/PI-Desktop](https://github.com/vastsa/PI-Desktop) 的下游衍生版本；上游版权与
+许可声明予以保留。
+
+修改声明：2026, SuKERY918 (Pi-Desktop-Next)
 
 详见 [LICENSE](LICENSE)。
 
@@ -793,13 +779,13 @@ PI-Desktop 使用 **GNU Lesser General Public License v3.0** 开源。
 
 ### 用你喜欢的模型，干你自己的活。
 
-**[下载 PI-Desktop](https://github.com/vastsa/PI-Desktop/releases/latest)**
+**[下载 Pi-Desktop-Next](https://github.com/SuKERY918/Pi-Desktop-Next/releases/latest)**
 
 <sub>macOS · Windows · Linux</sub>
 
 <br /><br />
 
-**如果 PI-Desktop 对你有帮助，欢迎点一个 ⭐ Star。**
+**如果 Pi-Desktop-Next 对你有帮助，欢迎点一个 ⭐ Star。**
 
 它会让更多人看到这个项目，也会让我知道这件事值得继续做下去。
 

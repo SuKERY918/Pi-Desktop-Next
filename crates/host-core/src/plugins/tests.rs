@@ -136,7 +136,7 @@ fn marketplace_uses_highest_semver_when_catalog_versions_are_unsorted() {
             id: "pi.todo".into(),
             name: "Fresh Todo".into(),
             description: "Todo plugin".into(),
-            author: "PI-Desktop".into(),
+            author: "Pi-Desktop-Next".into(),
             icon_url: None,
             categories: vec![],
             verified: true,
@@ -220,7 +220,7 @@ fn market_entry_offers_an_update_only_when_the_catalog_is_newer() {
             id: "pi.todo".into(),
             name: "Todo".into(),
             description: "Todo plugin".into(),
-            author: "PI-Desktop".into(),
+            author: "Pi-Desktop-Next".into(),
             versions: vec![MarketVersion {
                 version: latest.into(),
                 published_at: "2026-08-12T00:00:00Z".into(),
@@ -426,7 +426,7 @@ fn resolve_relative_package_urls_against_catalog() {
     );
     assert_eq!(
         resolved,
-        "https://raw.githubusercontent.com/AIUO-Net/pi-desktop-plugins/main/packages/demo.hello-0.2.0.piplug"
+        "https://raw.githubusercontent.com/SuKERY918/pi-desktop-plugins/main/packages/demo.hello-0.2.0.piplug"
     );
 }
 
@@ -586,6 +586,9 @@ fn cached_catalog_is_scoped_to_the_source_that_fetched_it() {
         assert!(mgr.cached_catalog_matches_source(OFFICIAL_CHANNEL_CATALOG_URL));
         assert!(mgr.cached_catalog_matches_source(MIRROR_MARKET_CATALOG_URL));
 
+        // Every built-in channel now names the one distribution repo, so a
+        // recorded source is trusted for all of them and for nothing else: a
+        // snapshot fetched from some other provider is not reused.
         fs::create_dir_all(dir.path().join("plugins/market")).unwrap();
         fs::write(
             mgr.market_cache_meta_path(),
@@ -593,7 +596,10 @@ fn cached_catalog_is_scoped_to_the_source_that_fetched_it() {
         )
         .unwrap();
         assert!(mgr.cached_catalog_matches_source(MIRROR_MARKET_CATALOG_URL));
-        assert!(!mgr.cached_catalog_matches_source(OFFICIAL_CHANNEL_CATALOG_URL));
+        assert!(mgr.cached_catalog_matches_source(OFFICIAL_CHANNEL_CATALOG_URL));
+        assert!(!mgr.cached_catalog_matches_source(
+            "https://example.test/other/catalog.json"
+        ));
     });
 }
 
@@ -1471,7 +1477,7 @@ fn v2_catalog(entry: MarketCatalogEntry) -> MarketCatalogFile {
         schema_version: 2,
         provider_id: "official".into(),
         artifact_base_url: Some(
-            "https://github.com/vastsa/pi-plugin-center/releases/download".into(),
+            "https://github.com/SuKERY918/pi-plugin-center/releases/download".into(),
         ),
         plugins: vec![entry],
         ..Default::default()
@@ -1480,14 +1486,14 @@ fn v2_catalog(entry: MarketCatalogEntry) -> MarketCatalogFile {
 
 #[test]
 fn package_downloads_are_restricted_to_distribution_hosts() {
-    let catalog = "https://raw.githubusercontent.com/vastsa/pi-plugin-center/main/catalog.json";
+    let catalog = "https://raw.githubusercontent.com/SuKERY918/pi-plugin-center/main/catalog.json";
     // GitHub release entry point and the storage hosts it redirects to.
     for url in [
-            "https://github.com/vastsa/pi-plugin-center/releases/download/acme.todo@1.0.0/acme.todo-1.0.0.piplug",
+            "https://github.com/SuKERY918/pi-plugin-center/releases/download/acme.todo@1.0.0/acme.todo-1.0.0.piplug",
             "https://objects.githubusercontent.com/github-production-release-asset/1",
             "https://release-assets.githubusercontent.com/github-production-release-asset/1",
             "https://codeload.github.com/acme/pi-plugin-todo/zip/refs/tags/v1.0.0",
-            "https://cnb.cool/aixk/pi-plugin-center/-/releases/download/x.piplug",
+            "https://cnb.cool/SuKERY918/pi-plugin-center/-/releases/download/x.piplug",
         ] {
             package_host_allowed(url, catalog).unwrap_or_else(|e| panic!("{url}: {e}"));
         }
@@ -1514,7 +1520,7 @@ fn a_private_catalog_is_trusted_only_for_its_own_host() {
 
 #[test]
 fn package_urls_reject_credentials_and_plain_http() {
-    let catalog = "https://raw.githubusercontent.com/vastsa/pi-plugin-center/main/catalog.json";
+    let catalog = "https://raw.githubusercontent.com/SuKERY918/pi-plugin-center/main/catalog.json";
     let err = package_host_allowed("https://user:pass@github.com/a.piplug", catalog)
         .unwrap_err()
         .to_string();
@@ -1531,21 +1537,21 @@ fn package_urls_reject_credentials_and_plain_http() {
 
 #[test]
 fn relative_package_urls_resolve_against_the_declared_artifact_base() {
-    let catalog = "https://raw.githubusercontent.com/vastsa/pi-plugin-center/main/catalog.json";
+    let catalog = "https://raw.githubusercontent.com/SuKERY918/pi-plugin-center/main/catalog.json";
     // v2: the declared base wins, so a release asset is reachable even
     // though it does not live under the catalog directory.
     assert_eq!(
             PluginManager::resolve_package_url(
                 catalog,
-                Some("https://github.com/vastsa/pi-plugin-center/releases/download"),
+                Some("https://github.com/SuKERY918/pi-plugin-center/releases/download"),
                 "acme.todo@1.0.0/acme.todo-1.0.0.piplug",
             ),
-            "https://github.com/vastsa/pi-plugin-center/releases/download/acme.todo@1.0.0/acme.todo-1.0.0.piplug"
+            "https://github.com/SuKERY918/pi-plugin-center/releases/download/acme.todo@1.0.0/acme.todo-1.0.0.piplug"
         );
     // v1: no declared base, so the catalog directory still anchors it.
     assert_eq!(
         PluginManager::resolve_package_url(catalog, None, "packages/x.piplug"),
-        "https://raw.githubusercontent.com/vastsa/pi-plugin-center/main/packages/x.piplug"
+        "https://raw.githubusercontent.com/SuKERY918/pi-plugin-center/main/packages/x.piplug"
     );
     // An absolute URL is passed through for the host allowlist to judge.
     assert_eq!(
@@ -1558,33 +1564,28 @@ fn relative_package_urls_resolve_against_the_declared_artifact_base() {
     );
 }
 
-/// The backup channels serve `catalog.json` from their tree root and packages
-/// from `packages/`, so a relative URL needs no declared base. The official
-/// channel does not use this path at all: an install asks the plugin center
-/// where the package is.
+/// Every backup channel serves `catalog.json` from the one distribution repo
+/// and packages from `packages/`, so a relative URL needs no declared base and
+/// resolves to the same place whichever channel the user selected. The
+/// official channel does not use this path at all: an install asks the plugin
+/// center where the package is.
 #[test]
-fn backup_channels_each_resolve_their_own_packages() {
+fn backup_channels_resolve_against_the_shared_distribution_repo() {
     let relative = "packages/acme.todo-1.0.0.piplug";
 
     let github =
         PluginManager::resolve_package_url(GITHUB_BACKUP_CHANNEL_CATALOG_URL, None, relative);
-    assert_eq!(
-        github,
-        "https://raw.githubusercontent.com/AIUO-Net/pi-desktop-plugins/main/packages/acme.todo-1.0.0.piplug"
-    );
-
     let mirror = PluginManager::resolve_package_url(MIRROR_MARKET_CATALOG_URL, None, relative);
-    assert_eq!(
-        mirror,
-        "https://cnb.cool/aixk/pi-desktop-plugins/-/git/raw/main/packages/acme.todo-1.0.0.piplug"
-    );
+    let expected =
+        "https://raw.githubusercontent.com/SuKERY918/pi-desktop-plugins/main/packages/acme.todo-1.0.0.piplug";
+    assert_eq!(github, expected);
+    assert_eq!(mirror, expected);
 
-    // Neither resolution leaves the source the user picked, and both hosts
-    // are ones the download boundary already accepts.
+    // Neither resolution leaves the source the user picked, and the host is
+    // one the download boundary already accepts.
     package_host_allowed(&github, GITHUB_BACKUP_CHANNEL_CATALOG_URL).unwrap();
     package_host_allowed(&mirror, MIRROR_MARKET_CATALOG_URL).unwrap();
-    assert!(github.starts_with("https://raw.githubusercontent.com/AIUO-Net/"));
-    assert!(mirror.starts_with("https://cnb.cool/"));
+    assert!(github.starts_with("https://raw.githubusercontent.com/SuKERY918/"));
 }
 
 #[test]

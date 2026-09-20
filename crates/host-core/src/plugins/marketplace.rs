@@ -3,12 +3,12 @@ use super::*;
 pub mod catalog;
 pub(crate) use catalog::{built_in_catalog, bundled_package_bytes};
 
-/// Official channel: the plugin center.
+/// Official channel: the project's own distribution catalog.
 ///
-/// The catalog it serves is the client's listing contract, and an install asks
-/// the same host where the package is (`plugins::resolve`) instead of resolving
-/// a relative package URL against a git host.
-pub const OFFICIAL_CHANNEL_CATALOG_URL: &str = "https://plugins.aiuo.net/catalog.json";
+/// Served from the Pi-Desktop-Next plugin distribution repository, which
+/// carries both the catalog and its packages in one tree.
+pub const OFFICIAL_CHANNEL_CATALOG_URL: &str =
+    "https://raw.githubusercontent.com/SuKERY918/pi-desktop-plugins/main/catalog.json";
 
 /// Backup channel: the GitHub copy of the distribution repository.
 ///
@@ -16,24 +16,26 @@ pub const OFFICIAL_CHANNEL_CATALOG_URL: &str = "https://plugins.aiuo.net/catalog
 /// against whichever host served the catalog and a switch can never cross
 /// providers.
 pub const GITHUB_BACKUP_CHANNEL_CATALOG_URL: &str =
-    "https://raw.githubusercontent.com/AIUO-Net/pi-desktop-plugins/main/catalog.json";
+    "https://raw.githubusercontent.com/SuKERY918/pi-desktop-plugins/main/catalog.json";
 
-/// Backup channel: the CNB copy, for networks that cannot reach GitHub.
+/// Backup channel: mirror of the same distribution catalog, for networks that
+/// prefer a different host.
 pub const MIRROR_MARKET_CATALOG_URL: &str =
-    "https://cnb.cool/aixk/pi-desktop-plugins/-/git/raw/main/catalog.json";
+    "https://raw.githubusercontent.com/SuKERY918/pi-desktop-plugins/main/catalog.json";
 
 /// The catalog source a user chose.
 ///
 /// `official` keeps its meaning — "the official one" — and the official one is
-/// now the plugin center. That is why a settings row written before this change
-/// keeps meaning what its author picked, and why no migration is needed.
+/// the project's own distribution catalog. That is why a settings row written
+/// before a catalog change keeps meaning what its author picked, and why no
+/// migration is needed.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MarketChannel {
-    /// The plugin center (the default).
+    /// The official distribution catalog (the default).
     Official,
     /// The GitHub backup.
     Github,
-    /// The CNB backup.
+    /// The mirror backup.
     Mirror,
     /// A catalog URL the user typed.
     Custom,
@@ -509,7 +511,7 @@ impl PluginManager {
         }
         if !host_supports_version(&selected) {
             bail!(
-                "PLUGIN_HOST_TOO_OLD: version {} requires PI-Desktop {} or newer, this host is {}",
+                "PLUGIN_HOST_TOO_OLD: version {} requires Pi-Desktop-Next {} or newer, this host is {}",
                 selected.version,
                 selected.min_pi_desktop.as_deref().unwrap_or("newer"),
                 crate::state::HOST_VERSION

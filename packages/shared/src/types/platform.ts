@@ -33,46 +33,6 @@ export type HostStatusEvent = {
   archMismatch?: { platform: string; processArch: string; machineArch: string };
 };
 
-/**
- * How app updates are delivered on this install:
- *  - in-app: electron-updater downloads and installs (Windows NSIS, Linux
- *    AppImage, packaged macOS)
- *  - manual: we only detect new versions and link to the releases page
- *    (Linux deb/rpm, Windows portable)
- *  - disabled: development / unpackaged build
- */
-export type UpdateMode = "in-app" | "manual" | "disabled";
-
-export type UpdateStatus =
-  | "idle"
-  | "checking"
-  | "available"
-  | "up-to-date"
-  | "downloading"
-  | "downloaded"
-  | "error";
-
-/** Snapshot pushed on the `updatesState` event and returned by updates IPC. */
-export type UpdateState = {
-  mode: UpdateMode;
-  status: UpdateStatus;
-  currentVersion: string;
-  availableVersion?: string;
-  /**
-   * Localized product highlights for `availableVersion` from the shipped-locale
-   * in-app changelog. Plain text (bullet lines); absent when the version has
-   * no catalog entry. Main selects the locale — the renderer never supplies
-   * a feed or remote notes URL (ADR 0022 / D164).
-   */
-  releaseNotes?: string;
-  /** 0-100 while status is "downloading". */
-  progressPercent?: number;
-  error?: string;
-  /** True when the transition came from a user-initiated check. */
-  manual?: boolean;
-  releasesUrl: string;
-};
-
 export type OnboardingState = {
   showChecklist: boolean;
   steps: Array<{

@@ -1,7 +1,7 @@
 export const PROTOCOL_VERSION = 11 as const;
 export const SCHEMA_VERSION = 16 as const;
-export const APP_ID = "net.aiuo.pi-desktop";
-export const APP_NAME = "PI-Desktop";
+export const APP_ID = "io.github.sukery918.pi-desktop-next";
+export const APP_NAME = "Pi-Desktop-Next";
 export const APP_VERSION = "0.15.1";
 
 export const APP_MENU_COMMANDS = [
@@ -13,7 +13,6 @@ export const APP_MENU_COMMANDS = [
   "toggleSidebar",
   "openHelp",
   "openLogs",
-  "checkForUpdates",
 ] as const;
 
 export type AppMenuCommand = (typeof APP_MENU_COMMANDS)[number];
@@ -57,11 +56,6 @@ export const IPC = {
     appDismissOnboarding: "pi-desktop/app/dismissOnboarding",
     /** Installed system font families, resolved by Electron main. */
     systemFontsList: "pi-desktop/app/systemFonts",
-    updatesGetState: "pi-desktop/updates/getState",
-    updatesCheck: "pi-desktop/updates/check",
-    updatesDownload: "pi-desktop/updates/download",
-    updatesInstall: "pi-desktop/updates/install",
-    updatesOpenReleases: "pi-desktop/updates/openReleases",
     notificationList: "pi-desktop/notification/list",
     notificationMarkRead: "pi-desktop/notification/markRead",
     notificationMarkAllRead: "pi-desktop/notification/markAllRead",
@@ -330,7 +324,6 @@ export const IPC = {
     plansChanged: "pi-desktop/plans/event/changed",
     providersOauth: "pi-desktop/providers/oauth/event",
     mcpOauth: "pi-desktop/mcp/oauth/event",
-    updatesState: "pi-desktop/updates/event/state",
   },
 } as const;
 

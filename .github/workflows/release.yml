@@ -8,12 +8,11 @@
 #
 # Builds installers for every platform defined in the electron-builder config
 # (macOS dmg/zip arm64 and x64, Windows NSIS and portable x64, Linux
-# AppImage/deb/rpm x64), each
-# with its native pi-desktop-host-core Rust sidecar. The Linux app.asar is also
-# exported as a system-Electron repackaging asset, and all outputs — with their
-# electron-updater latest*.yml feeds — are published to the GitHub Release
-# (D126/D285/D364). macOS tag artifacts are Developer ID-signed, notarized, and
-# stapled before upload (D450 / ADR 0289).
+# AppImage/deb/rpm x64), each with its native pi-desktop-host-core Rust
+# sidecar. The Linux app.asar is also exported as a system-Electron repackaging
+# asset, and all outputs are published to the GitHub Release (D126/D285/D364).
+# macOS tag artifacts are Developer ID-signed, notarized, and stapled before
+# upload (D450 / ADR 0289).
 #
 # It also builds the headless `pi-host` bundle for every Linux platform the
 # desktop publishes (currently x64) and publishes it as
@@ -254,7 +253,7 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          # electron-builder prints one "signing PI-Desktop.app" line and then
+          # electron-builder prints one "signing Pi-Desktop-Next.app" line and then
           # goes quiet: @electron/osx-sign walks Contents and codesigns every
           # Mach-O serially, builder-util silently retries a failing pass up to
           # three times, and @electron/notarize zips, uploads, and waits for
@@ -330,16 +329,16 @@ jobs:
         run: |
           set -euo pipefail
           shopt -s nullglob
-          expected_dmg=(apps/desktop/release/PI-Desktop-*-${{ matrix.arch }}.dmg)
-          expected_dmg_blockmap=(apps/desktop/release/PI-Desktop-*-${{ matrix.arch }}.dmg.blockmap)
-          expected_zip=(apps/desktop/release/PI-Desktop-*-${{ matrix.arch }}-mac.zip)
-          expected_zip_blockmap=(apps/desktop/release/PI-Desktop-*-${{ matrix.arch }}-mac.zip.blockmap)
+          expected_dmg=(apps/desktop/release/Pi-Desktop-Next-*-${{ matrix.arch }}.dmg)
+          expected_dmg_blockmap=(apps/desktop/release/Pi-Desktop-Next-*-${{ matrix.arch }}.dmg.blockmap)
+          expected_zip=(apps/desktop/release/Pi-Desktop-Next-*-${{ matrix.arch }}-mac.zip)
+          expected_zip_blockmap=(apps/desktop/release/Pi-Desktop-Next-*-${{ matrix.arch }}-mac.zip.blockmap)
           if [[ "${#expected_dmg[@]}" -ne 1 || "${#expected_dmg_blockmap[@]}" -ne 1 || "${#expected_zip[@]}" -ne 1 || "${#expected_zip_blockmap[@]}" -ne 1 ]]; then
             echo "::error::Expected exactly one ${{ matrix.arch }} DMG, DMG blockmap, ZIP, and ZIP blockmap."
             printf '%s\n' apps/desktop/release/* || true
             exit 1
           fi
-          for artifact in apps/desktop/release/PI-Desktop-*; do
+          for artifact in apps/desktop/release/Pi-Desktop-Next-*; do
             case "$artifact" in
               *-${{ matrix.arch }}.dmg|*-${{ matrix.arch }}.dmg.blockmap|*-${{ matrix.arch }}-mac.zip|*-${{ matrix.arch }}-mac.zip.blockmap) ;;
               *)
@@ -348,10 +347,6 @@ jobs:
                 ;;
             esac
           done
-
-      - name: Disambiguate macOS update metadata
-        if: matrix.platform == 'macos'
-        run: mv apps/desktop/release/latest-mac.yml apps/desktop/release/latest-mac-${{ matrix.arch }}.yml
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -368,7 +363,6 @@ jobs:
             apps/desktop/release/*.rpm
             apps/desktop/release/*.asar
             apps/desktop/release/*.blockmap
-            apps/desktop/release/latest*.yml
 
   pi-host-bundle:
     name: Bundle pi-host (Linux ${{ matrix.arch }})
@@ -476,47 +470,13 @@ jobs:
       - name: List artifacts
         run: ls -la dist/
 
-      - name: Merge macOS updater metadata
-        working-directory: dist
-        run: |
-          set -euo pipefail
-          ruby <<'RUBY'
-          require "yaml"
-
-          paths = Dir["latest-mac-*.yml"].sort
-          expected_paths = ["latest-mac-arm64.yml", "latest-mac-x64.yml"]
-          abort "Expected both macOS updater feeds" unless paths == expected_paths
-
-          feeds = paths.map do |path|
-            YAML.safe_load(File.read(path), permitted_classes: [], aliases: false)
-          end
-          versions = feeds.map { |feed| feed.fetch("version") }.uniq
-          abort "macOS updater feeds disagree on version" unless versions.length == 1
-
-          files = feeds.flat_map { |feed| feed.fetch("files") }
-            .uniq { |file| file.fetch("url") }
-          zip = files.find { |file| file.fetch("url").end_with?(".zip") }
-          abort "macOS updater feeds contain no ZIP" if zip.nil?
-
-          merged = feeds.first.merge(
-            "version" => versions.first,
-            "files" => files,
-            "path" => zip.fetch("url"),
-            "sha512" => zip.fetch("sha512"),
-          )
-          File.write("latest-mac.yml", merged.to_yaml)
-          RUBY
-          rm latest-mac-arm64.yml latest-mac-x64.yml
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v3
         with:
           # D126/D285/D364: all desktop platforms and both native macOS
           # architectures ship from tag builds — installers, the Windows
-          # portable exe, the Linux ASAR, blockmaps, and the latest*.yml
-          # feeds that drive electron-updater on each platform (in-app for
-          # Windows NSIS and Linux AppImage; macOS and Windows portable remain
-          # manual-delivery by product policy).
+          # portable exe, the Linux ASAR, and blockmaps. The app ships no
+          # in-app updater, so no latest*.yml feed is published.
           files: dist/*
           generate_release_notes: true
           prerelease: ${{ contains(github.ref_name, '-') }}

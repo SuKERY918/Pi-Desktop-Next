@@ -64,7 +64,6 @@ import { ProjectEditDialog } from "./ProjectEditDialog";
 import { useArmedDelete } from "../hooks/use-armed-delete";
 import { ProjectDeleteDialog } from "./ProjectDeleteDialog";
 import { SessionRenameDialog } from "./SessionRenameDialog";
-import { useUpdateState } from "../hooks/use-update-state";
 import {
   IconArchive,
   IconArchiveRestore,
@@ -269,8 +268,6 @@ export function Sidebar({
   const showToast = useAppStore((s) => s.showToast);
   const version = useAppStore((s) => s.version);
   const setSettingsTab = useAppStore((s) => s.setSettingsTab);
-  const setSettingsAnchor = useAppStore((s) => s.setSettingsAnchor);
-  const update = useUpdateState();
 
   const [sortOpen, setSortOpen] = useState(false);
   const [sessionMenu, setSessionMenu] = useState<string | null>(null);
@@ -566,21 +563,9 @@ export function Sidebar({
 
   // Footer utility bar: settings / plugins / notifications + build chip.
 
-  // An update only earns the accent dot once it is actionable — a pending
-  // check or a failed one keeps the chip quiet.
-  const updateReady =
-    update?.status === "available" || update?.status === "downloaded";
-  const appVersion = update?.currentVersion || version?.version || "";
-  const buildLabel = updateReady
-    ? `v${update?.availableVersion ?? appVersion}`
-    : update?.status === "checking"
-      ? t("updates.checking")
-      : appVersion
-        ? `v${appVersion}`
-        : t("nav.buildUnknown");
-  const buildTitle = updateReady
-    ? t("updates.available", { version: update?.availableVersion ?? "" })
-    : t("nav.checkForUpdates");
+  const appVersion = version?.version || "";
+  const buildLabel = appVersion ? `v${appVersion}` : t("nav.buildUnknown");
+  const buildTitle = `${version?.name ?? "Pi-Desktop-Next"} ${buildLabel}`;
 
   const onMenuKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Escape") {
@@ -2322,25 +2307,13 @@ export function Sidebar({
 
           <TooltipButton
             type="button"
-            className={`footer-build ${updateReady ? "has-update" : ""}`}
+            className="footer-build"
             data-nav="build"
             tooltip={buildTitle}
             ariaLabel={buildTitle}
-            onClick={() => {
-              if (updateReady) {
-                setSettingsAnchor("updates.title");
-                setSettingsTab("about");
-                return;
-              }
-              void (async () => {
-                try {
-                  await api.updatesCheck();
-                } catch { /* ignore */ }
-              })();
-            }}
+            onClick={() => setSettingsTab("about")}
           >
             <span className="footer-build-version">{buildLabel}</span>
-            {updateReady ? <span className="footer-build-dot" aria-hidden /> : null}
           </TooltipButton>
         </div>
       </div>

@@ -107,7 +107,6 @@ import type {
   RemoteHostPairRequest,
   RemoteHostPairResult,
   RemoteHostSummary,
-  UpdateState,
   WindowControlAction,
   CloseBehavior,
   TrustedExtensionStatusEvent,
@@ -472,11 +471,6 @@ export const api = {
   health: () => invoke<HostHealth>(IPC.invoke.appHealth),
   getOnboarding: () => invoke<OnboardingState>(IPC.invoke.appGetOnboarding),
   dismissOnboarding: () => invoke(IPC.invoke.appDismissOnboarding),
-  updatesGetState: () => invoke<UpdateState>(IPC.invoke.updatesGetState),
-  updatesCheck: () => invoke<UpdateState>(IPC.invoke.updatesCheck),
-  updatesDownload: () => invoke<UpdateState>(IPC.invoke.updatesDownload),
-  updatesInstall: () => invoke(IPC.invoke.updatesInstall),
-  updatesOpenReleases: () => invoke(IPC.invoke.updatesOpenReleases),
   openFeedback: () => invoke(IPC.invoke.appOpenFeedback),
   listNotifications: (input?: { unreadOnly?: boolean; limit?: number }) =>
     invoke<NotificationListResult>(IPC.invoke.notificationList, input ?? {}),
@@ -1430,12 +1424,6 @@ export const api = {
     if (!window.piDesktop?.on) return () => undefined;
     return window.piDesktop.on(IPC.event.notificationActivated, (payload) =>
       listener(payload as { id: string; sessionId: string }),
-    );
-  },
-  onUpdateState: (listener: (state: UpdateState) => void) => {
-    if (!window.piDesktop?.on) return () => undefined;
-    return window.piDesktop.on(IPC.event.updatesState, (payload) =>
-      listener(payload as UpdateState),
     );
   },
   onPluginInstallProgress: (listener: (event: PluginInstallProgress) => void) => {

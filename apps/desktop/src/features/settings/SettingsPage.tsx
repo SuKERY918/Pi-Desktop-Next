@@ -54,7 +54,7 @@ import {
   SettingsCard,
   SettingsRow,
 } from "./primitives";
-import { AgentInstructionsSection, UpdatesRow } from "./agent-sections";
+import { AgentInstructionsSection } from "./agent-sections";
 import { ImportSection } from "./import-page";
 import { PromptEnhancementCard } from "./prompt-enhancement-card";
 import { CloseBehaviorSection, DeveloperSection } from "./developer-sections";
@@ -506,7 +506,7 @@ export function SettingsPage() {
                 <SettingsRow title={t("settings.application")}>
                   <div className="settings-about-meta">
                     <div className="font-medium">
-                      {version?.name || "PI-Desktop"} {version?.version}
+                      {version?.name || "Pi-Desktop-Next"} {version?.version}
                     </div>
                     <div className="font-mono text-xs-plus text-text-muted">
                       protocol {version?.protocolVersion} · host {version?.hostVersion}
@@ -529,7 +529,6 @@ export function SettingsPage() {
                     {t("settings.openFeedback")}
                   </Button>
                 </SettingsRow>
-                <UpdatesRow currentVersion={version?.version} />
               </SettingsCard>
 
               {settings && (

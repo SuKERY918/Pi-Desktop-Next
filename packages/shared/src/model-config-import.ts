@@ -835,7 +835,7 @@ function bindingFromGenericModel(
 }
 
 /**
- * A config exported by PI-Desktop carries the provenance marker; an older or
+ * A config exported by Pi-Desktop-Next carries the provenance marker; an older or
  * foreign config does not.
  */
 function importedContextWindowSource(value: unknown): ContextWindowSource | undefined {

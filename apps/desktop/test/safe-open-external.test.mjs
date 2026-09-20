@@ -25,12 +25,11 @@ const mainIndexSource = readMainModuleSync("index.ts");
 const runtimeSource = read("../electron/main/plugin-runtime.ts");
 const viewHostSource = read("../electron/main/plugin-view-host.ts");
 const browserSource = read("../electron/main/browser-view.ts");
-const updaterSource = read("../electron/main/updater.ts");
 
 test("parseAllowedExternalUrl permits http, https, and mailto", () => {
   assert.equal(
-    parseAllowedExternalUrl("https://github.com/vastsa/PI-Desktop"),
-    "https://github.com/vastsa/PI-Desktop",
+    parseAllowedExternalUrl("https://github.com/SuKERY918/Pi-Desktop-Next"),
+    "https://github.com/SuKERY918/Pi-Desktop-Next",
   );
   assert.equal(parseAllowedExternalUrl("https://claude.ai"), "https://claude.ai/");
   assert.equal(
@@ -106,7 +105,7 @@ test("openAllowedExternal calls the opener only for allowlisted hrefs and throws
   assert.deepEqual(calls, ["https://example.com/path", "mailto:a@b.test"]);
 });
 
-test("main, plugins, preview, and updater share the allowlist before openExternal", () => {
+test("main, plugins, and preview share the allowlist before openExternal", () => {
   assert.match(desktopServicesSource, /import \{ parseAllowedExternalUrl \} from "\.\.\/safe-open-external"/);
   assert.match(desktopServicesSource, /const safeOpenExternal = async \(rawUrl: unknown\)/);
   assert.match(desktopServicesSource, /const url = parseAllowedExternalUrl\(rawUrl\)/);
@@ -143,6 +142,4 @@ test("main, plugins, preview, and updater share the allowlist before openExterna
     browserSource,
     /openExternal\(\): void \{[\s\S]*void shell\.openExternal\(url\);/,
   );
-
-  assert.match(updaterSource, /parseAllowedExternalUrl\(RELEASES_URL\)/);
 });
