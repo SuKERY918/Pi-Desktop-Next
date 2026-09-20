@@ -115,7 +115,7 @@ test("close behavior is not settable on macOS", () => {
   assert.match(body, /behavior !== "tray" && behavior !== "quit"/);
 });
 
-test("explicit quit asks for confirmation except probes and update restarts", () => {
+test("explicit quit asks for confirmation except automated probes", () => {
   assert.match(closeBehaviorSource, /const confirmQuitDialog = async/);
   assert.match(closeBehaviorSource, /labels\.tray\.confirmQuitTitle/);
   const quitHandler = shutdownSource.slice(
@@ -125,19 +125,8 @@ test("explicit quit asks for confirmation except probes and update restarts", ()
   assert.match(body, /PI_DESKTOP_BOOT_PROBE/);
   assert.match(
     body,
-    /!state\.quitConfirmed && !isAutomatedMode && !isUpdateRestart/,
-    "automated probes and update restarts are the only confirmation exemptions",
-  );
-  assert.match(
-    body,
-    /const isUpdateRestart = updater\.isInstallingUpdate\(\)/,
-    "the updater is asked whether this quit is an update restart",
-  );
-  // The installer for an in-app update is spawned before app.quit(); a dialog
-  // in front of that quit makes the installer time out and the update fail.
-  assert.ok(
-    body.indexOf("isUpdateRestart") < body.indexOf("confirmQuitDialog()"),
-    "the update-restart exemption must gate the dialog, not follow it",
+    /!state\.quitConfirmed && !isAutomatedMode/,
+    "an automated probe is the only confirmation exemption",
   );
   assert.match(body, /confirmQuitDialog\(\)/);
   // Window-close Quit already chose to exit in the close-behavior dialog.

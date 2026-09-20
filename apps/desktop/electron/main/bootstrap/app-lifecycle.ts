@@ -37,7 +37,7 @@ export type ApplicationLifecycleState = {
 };
 
 export type ApplicationAppearanceState = {
-  updaterLocale: string;
+  uiLocale: string;
   pluginPanelTheme: "light" | "dark";
   appThemePreference: string;
   broadcastAppearanceSignature: string;
@@ -68,7 +68,6 @@ export type ApplicationLifecycleDependencies = {
   pluginViews: PluginViewHost;
   plugins: PluginRuntime;
   logger: Pick<Logger, "app">;
-  refreshReleaseNotes: () => void;
   applyPluginLauncherShortcut: (keybindings?: KeybindingOverrides) => void;
   applyToggleWindowShortcut: (keybindings?: KeybindingOverrides) => void;
   broadcastPluginPanelEvent: (event: string, payload: unknown) => void;
@@ -101,7 +100,6 @@ export function createApplicationLifecycle({
   pluginViews,
   plugins,
   logger,
-  refreshReleaseNotes,
   applyPluginLauncherShortcut,
   applyToggleWindowShortcut,
   broadcastPluginPanelEvent,
@@ -210,7 +208,7 @@ export function createApplicationLifecycle({
     restoreMainWindow();
   }
 
-  function updateTrayMenu(locale = appearanceState.updaterLocale || app.getLocale()) {
+  function updateTrayMenu(locale = appearanceState.uiLocale || app.getLocale()) {
     if (!state.tray) return;
     const catalog = catalogs[resolveLocale(locale)];
     const labels = catalog.tray;
@@ -540,9 +538,8 @@ export function createApplicationLifecycle({
       settings.language !== "auto"
         ? settings.language
         : app.getLocale();
-    if (locale !== appearanceState.updaterLocale) {
-      appearanceState.updaterLocale = locale;
-      refreshReleaseNotes();
+    if (locale !== appearanceState.uiLocale) {
+      appearanceState.uiLocale = locale;
       // Plugin labels are resolved in the host (a plugin ships them per
       // locale), so the change is pushed there before the surfaces re-read.
       // `pluginChanged` is also what makes the Extensions page re-list, so a
@@ -599,7 +596,7 @@ export function createApplicationLifecycle({
         base = "system";
       }
     }
-    return { theme: appearanceState.appThemePreference, base, locale: appearanceState.updaterLocale, pluginTheme };
+    return { theme: appearanceState.appThemePreference, base, locale: appearanceState.uiLocale, pluginTheme };
   }
 
   /**

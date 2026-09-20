@@ -79,17 +79,15 @@ test("leaf popups and toasts keep painting above the route overlays", async () =
 
   const veil = layer("\\.plugins-modal-backdrop");
   const sheet = layer("\\.plugins-sheet-layer");
-  const notes = layer("\\.release-notes-overlay");
   const toast = layer("\\.toast-viewport");
   const selectMenu = layer("\\.settings-menu-select-menu");
 
   for (const [name, value] of [
     ["plugins-modal-backdrop", veil],
     ["plugins-sheet-layer", sheet],
-    ["release-notes-overlay", notes],
   ]) {
     assert.ok(value <= 40, `${name} must sit on z-dialog (40), not ${value}`);
   }
-  assert.ok(selectMenu > veil && selectMenu > sheet && selectMenu > notes);
-  assert.ok(toast > veil && toast > sheet && toast > notes);
+  assert.ok(selectMenu > veil && selectMenu > sheet);
+  assert.ok(toast > veil && toast > sheet);
 });

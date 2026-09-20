@@ -13,7 +13,6 @@ import {
 } from "@pi-desktop/shared";
 import { globalInstructionPath } from "@pi-desktop/agent-runtime";
 import type { HostProcess } from "../host-process";
-import type { AppUpdaterController } from "../updater";
 import type { IpcRegistrar } from "./types";
 
 export type AppIpcDependencies = {
@@ -22,17 +21,15 @@ export type AppIpcDependencies = {
   getPluginLauncherWindow: () => BrowserWindow | null;
   togglePluginLauncher: () => Promise<void>;
   safeOpenExternal: (url: unknown) => Promise<void>;
-  updater: AppUpdaterController;
 };
 
-/** Register app, instruction, launcher and update channels. */
+/** Register app, instruction, and launcher channels. */
 export function registerAppIpc({
   registrar,
   getHost,
   getPluginLauncherWindow,
   togglePluginLauncher,
   safeOpenExternal,
-  updater,
 }: AppIpcDependencies): void {
   const { handle, handleWithEvent } = registrar;
 
@@ -211,16 +208,4 @@ export function registerAppIpc({
       return { file: { ...file, content, exists: true } };
     },
   );
-
-  handle(IPC.invoke.updatesGetState, async () => updater.getState());
-  handle(IPC.invoke.updatesCheck, async () => updater.check({ manual: true }));
-  handle(IPC.invoke.updatesDownload, async () => updater.download());
-  handle(IPC.invoke.updatesInstall, async () => {
-    updater.install();
-    return { ok: true };
-  });
-  handle(IPC.invoke.updatesOpenReleases, async () => {
-    await updater.openReleases();
-    return { ok: true };
-  });
 }

@@ -51,12 +51,12 @@ test("Windows runtime registers the canonical native application identity", () =
   );
 });
 
-test("Windows packages pin PI-Desktop executable and shortcut names", () => {
-  assert.equal(packageJson.build.win.executableName, "PI-Desktop");
-  assert.equal(packageJson.build.nsis.shortcutName, "PI-Desktop");
+test("Windows packages pin Pi-Desktop-Next executable and shortcut names", () => {
+  assert.equal(packageJson.build.win.executableName, "Pi-Desktop-Next");
+  assert.equal(packageJson.build.nsis.shortcutName, "Pi-Desktop-Next");
 });
 
-test("Windows packages and windows use the canonical PI-Desktop icon", () => {
+test("Windows packages and windows use the canonical Pi-Desktop-Next icon", () => {
   assert.equal(packageJson.build.win.icon, "build/icon.ico");
   assert.deepEqual(
     packageJson.build.win.extraResources.find((resource) => resource.to === "app-icon.ico"),
@@ -80,7 +80,7 @@ test("Linux packages align the desktop entry with the Wayland app identity", () 
   assert.equal(packageJson.build.linux.syncDesktopName, true);
 });
 
-test("macOS development uses the canonical PI-Desktop Dock icon", () => {
+test("macOS development uses the canonical Pi-Desktop-Next Dock icon", () => {
   assert.match(
     brandingSource,
     /process\.platform !== "darwin" \|\| !isDevelopmentBuild \|\| !app\.dock/,
@@ -188,8 +188,8 @@ test(
         await readFile(join(brandedContents, "Resources", "icon.icns"), "utf8"),
         "canonical-icon",
       );
-      assert.match(plist, /<string>PI-Desktop<\/string>/);
-      assert.match(plist, /<string>net\.aiuo\.pi-desktop\.dev<\/string>/);
+      assert.match(plist, /<string>Pi-Desktop-Next<\/string>/);
+      assert.match(plist, /<string>io\.github\.sukery918\.pi-desktop-next\.dev<\/string>/);
       assert.equal(prepareMacDevelopmentBundle(options), brandedExecutable);
     } finally {
       await rm(root, { recursive: true, force: true });

@@ -3,11 +3,11 @@
   "version": "0.15.1",
   "desktopName": "pi-desktop.desktop",
   "private": true,
-  "description": "PI-Desktop Electron application",
-  "homepage": "https://github.com/vastsa/PI-Desktop",
+  "description": "Pi-Desktop-Next Electron application",
+  "homepage": "https://github.com/SuKERY918/Pi-Desktop-Next",
   "author": {
-    "name": "vastsa",
-    "email": "hhxk666@gmail.com"
+    "name": "SuKERY918",
+    "email": "SuKERY918@users.noreply.github.com"
   },
   "main": "./out/main/index.js",
   "type": "module",
@@ -29,9 +29,6 @@
     "dist:mac": "pnpm run build:deps && pnpm run build:host-release && pnpm run bundle:runtime && electron-vite build && electron-builder --mac --publish never",
     "dist:win": "pnpm run build:deps && pnpm run build:host-release && pnpm run bundle:runtime && electron-vite build && electron-builder --win --publish never",
     "dist:linux": "pnpm run build:deps && pnpm run build:host-release && pnpm run bundle:runtime && electron-vite build && electron-builder --linux --publish never"
-  },
-  "dependencies": {
-    "electron-updater": "^6.8.9"
   },
   "devDependencies": {
     "@earendil-works/pi-ai": "0.85.1",
@@ -75,18 +72,11 @@
     "zustand": "^5.0.15"
   },
   "build": {
-    "appId": "net.aiuo.pi-desktop",
-    "productName": "PI-Desktop",
+    "appId": "io.github.sukery918.pi-desktop-next",
+    "productName": "Pi-Desktop-Next",
     "directories": {
       "output": "release"
     },
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "vastsa",
-        "repo": "PI-Desktop"
-      }
-    ],
     "files": [
       "out/**/*",
       "package.json",
@@ -132,7 +122,7 @@
       }
     ],
     "mac": {
-      "artifactName": "PI-Desktop-${version}-${arch}-mac.${ext}",
+      "artifactName": "Pi-Desktop-Next-${version}-${arch}-mac.${ext}",
       "target": [
         {
           "target": "dmg"
@@ -148,8 +138,8 @@
       "entitlements": "build/entitlements.mac.plist",
       "entitlementsInherit": "build/entitlements.mac.plist",
       "extendInfo": {
-        "NSLocalNetworkUsageDescription": "PI-Desktop needs local network access so agents can reach OpenAI-compatible providers, Ollama, and other AI endpoints running on your LAN. / PI-Desktop 需要本地网络访问权限，以便助手请求同一局域网中的 OpenAI 兼容服务、Ollama 等本地 AI 端点。",
-        "NSMicrophoneUsageDescription": "PI-Desktop plugins may use the microphone after you grant them audio access. / 在你授权后，PI-Desktop 插件可以使用麦克风。",
+        "NSLocalNetworkUsageDescription": "Pi-Desktop-Next needs local network access so agents can reach OpenAI-compatible providers, Ollama, and other AI endpoints running on your LAN. / Pi-Desktop-Next 需要本地网络访问权限，以便助手请求同一局域网中的 OpenAI 兼容服务、Ollama 等本地 AI 端点。",
+        "NSMicrophoneUsageDescription": "Pi-Desktop-Next plugins may use the microphone after you grant them audio access. / 在你授权后，Pi-Desktop-Next 插件可以使用麦克风。",
         "NSBonjourServices": [
           "_http._tcp",
           "_https._tcp"
@@ -166,12 +156,12 @@
         }
       ],
       "extraDistFiles": [
-        "PI-Desktop-macOS-open.command",
-        "PI-Desktop-macOS-opening-help.txt"
+        "Pi-Desktop-Next-macOS-open.command",
+        "Pi-Desktop-Next-macOS-opening-help.txt"
       ]
     },
     "dmg": {
-      "artifactName": "PI-Desktop-${version}-${arch}.${ext}",
+      "artifactName": "Pi-Desktop-Next-${version}-${arch}.${ext}",
       "background": "build/dmg-background.png",
       "icon": "build/icon.icns",
       "window": {
@@ -194,7 +184,7 @@
       ]
     },
     "win": {
-      "executableName": "PI-Desktop",
+      "executableName": "Pi-Desktop-Next",
       "target": [
         {
           "target": "nsis",
@@ -224,11 +214,11 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
-      "shortcutName": "PI-Desktop",
-      "artifactName": "PI-Desktop-Setup-${version}.${ext}"
+      "shortcutName": "Pi-Desktop-Next",
+      "artifactName": "Pi-Desktop-Next-Setup-${version}.${ext}"
     },
     "portable": {
-      "artifactName": "PI-Desktop-Portable-${version}.${ext}",
+      "artifactName": "Pi-Desktop-Next-Portable-${version}.${ext}",
       "requestExecutionLevel": "user"
     },
     "deb": {

@@ -93,17 +93,20 @@ test("footer action buttons share the notification trigger's hit target", () => 
   assert.match(block, /transition:[^;]*var\(--motion-duration-fast\)/);
 });
 
-test("build chip surfaces the version and only dots an actionable update", () => {
-  assert.match(sidebarSource, /const update = useUpdateState\(\)/);
+test("build chip surfaces the version and opens Settings → About", () => {
+  // The chip is a static build label now: the app has no in-app updater, so it
+  // never dots, never reaches for update state, and only routes to About.
+  assert.match(sidebarSource, /const appVersion = version\?\.version \|\| ""/);
+  assert.match(sidebarSource, /const buildLabel = appVersion \? `v\$\{appVersion\}` : t\("nav\.buildUnknown"\)/);
   assert.match(
     sidebarSource,
-    /update\?\.status === "available" \|\| update\?\.status === "downloaded"/,
+    /const buildTitle = `\$\{version\?\.name \?\? "Pi-Desktop-Next"\} \$\{buildLabel\}`/,
   );
-  assert.match(sidebarSource, /className="footer-build-dot"/);
-  // An actionable update routes to the Settings row that can act on it.
-  assert.match(sidebarSource, /setSettingsAnchor\("updates\.title"\)/);
+  assert.match(sidebarSource, /className="footer-build"/);
   assert.match(sidebarSource, /setSettingsTab\("about"\)/);
-  assert.match(sidebarSource, /api\.updatesCheck\(\)/);
-  const dot = globalStyles.match(/\.footer-build-dot\s*\{[^}]+\}/)?.[0] ?? "";
-  assert.match(dot, /background:\s*var\(--ds-accent\)/);
+  assert.doesNotMatch(sidebarSource, /useUpdateState/);
+  assert.doesNotMatch(sidebarSource, /footer-build-dot/);
+  assert.doesNotMatch(sidebarSource, /setSettingsAnchor/);
+  assert.doesNotMatch(sidebarSource, /api\.updatesCheck/);
+  assert.doesNotMatch(globalStyles, /\.footer-build-dot/);
 });

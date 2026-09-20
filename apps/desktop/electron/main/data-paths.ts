@@ -6,7 +6,7 @@ import { APP_NAME } from "@pi-desktop/shared";
  * The two directories that define an installation, and the development split
  * between them.
  *
- * A packaged PI-Desktop and a `pnpm dev` host used to share both: the
+ * A packaged Pi-Desktop-Next and a `pnpm dev` host used to share both: the
  * name-derived `userData` — where Electron keeps the single-instance lock,
  * renderer `localStorage`, and the plugin panel partitions — and
  * `~/.pi-desktop`, where host-core keeps `pi.sqlite` beside the persistence
@@ -16,10 +16,16 @@ import { APP_NAME } from "@pi-desktop/shared";
  * same single-writer database, which is the divergence D236 exists to
  * prevent. Neither is workable while someone debugs against the app they use.
  *
- * Only the development side moves, and only these two names differ. A shipped
- * installation keeps `PI-Desktop` and `~/.pi-desktop`, so no upgrade relocates
- * a user's database, secrets, plugins, or renderer-local state, and
- * `PI_DESKTOP_DATA_DIR` still overrides either profile outright.
+ * Only the development side moves, and only these two names differ, so a
+ * development host never shares `userData` or the host data dir with a shipped
+ * installation. Note `userData` is derived from `app.getName()`: renaming the
+ * shipped app from `PI-Desktop` to `Pi-Desktop-Next` relocates it from
+ * `<appData>/PI-Desktop` to `<appData>/Pi-Desktop-Next`, so an in-place upgrade
+ * does NOT carry over Electron-side state (single-instance lock, renderer
+ * `localStorage`, and the `persist:pi-plugin-*` panel partitions). The
+ * `~/.pi-desktop` data dir is name-independent, so the host-core database,
+ * secrets, and plugins are unaffected. `PI_DESKTOP_DATA_DIR` still overrides
+ * either profile outright.
  */
 
 /** `userData` directory of a development installation, beside the shipped one. */

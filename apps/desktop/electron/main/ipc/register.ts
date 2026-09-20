@@ -79,7 +79,6 @@ export function registerIpcHandlers(dependencies: RegisterIpcDependencies) {
     getPluginLauncherWindow,
     togglePluginLauncher,
     safeOpenExternal,
-    updater,
     dataDir,
     activeTurns,
     isTurnDispatchable,
@@ -146,7 +145,7 @@ export function registerIpcHandlers(dependencies: RegisterIpcDependencies) {
     pluginScopes,
     rememberPluginScopes,
     pluginPanels,
-    getUpdaterLocale,
+    getUiLocale,
     getPluginPanelTheme,
     isDeveloperMode,
     sendToRenderer,
@@ -218,7 +217,6 @@ export function registerIpcHandlers(dependencies: RegisterIpcDependencies) {
     getPluginLauncherWindow,
     togglePluginLauncher,
     safeOpenExternal,
-    updater,
   });
   registerNotificationIpc({
     registrar,
@@ -422,7 +420,7 @@ export function registerIpcHandlers(dependencies: RegisterIpcDependencies) {
     pluginPanels,
     pluginActiveInProject,
     currentWorkspacePath,
-    getUpdaterLocale,
+    getUiLocale,
     getPluginPanelTheme,
   });
 

@@ -96,9 +96,9 @@ export type AppSettings = {
   /** Unlocks the devtools console (settings button, F12, macOS View menu). */
   developerMode?: boolean;
   /**
-   * Extension marketplace provider. `mirror` targets the cnb.cool copy for
-   * networks that cannot reach `raw.githubusercontent.com`; both serve the
-   * same catalog and packages.
+   * Extension marketplace provider. `mirror` resolves a backup copy of the
+   * same distribution catalog, so switching providers keeps the same catalog
+   * and packages.
    */
   pluginMarketSource?: PluginMarketSource;
   /** Catalog URL used when `pluginMarketSource` is `custom`. */

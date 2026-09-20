@@ -13,15 +13,12 @@
  * document (D164 + D260, docs/spec/06-delivery/06-release-runbook.md section 4.1):
  *   - apps/desktop/resources/models.dev/api.json is refreshed from models.dev
  *     and committed with the release tag
- *   - packages/shared/src/changelog*.ts (one entry for <version> in every
- *     shipped locale, matching highlight counts) and its newest-first list in
- *     changelog.test.ts
  *   - the release line stated in README.md and README.zh-CN.md
  * GitHub auto-generated release bodies are web-only and are not a substitute.
  *
  * This script runs `scripts/check-release-docs.mjs <version>` after bumping and
  * refuses to tag while any surface disagrees. Prereleases skip that preflight
- * (changelog catalogs the next stable version, not `x.y.z-beta.*`); still run
+ * (it tracks the next stable release line, not `x.y.z-beta.*`); still run
  * `node scripts/check-release-docs.mjs x.y.z` against the stable version being
  * previewed. Use --skip-docs-check only for a deliberate non-release bump.
  *
@@ -153,8 +150,8 @@ if (changed.length === 0) {
   console.log(`Bumped to ${version}:\n  ${changed.join("\n  ")}`);
 }
 
-// Version surfaces, the shipped-locale changelog, and the README release line must
-// agree before a tag exists (D260). Bumping files is reversible; a tag is not.
+// Version surfaces and the README release line must agree before a tag exists
+// (D260). Bumping files is reversible; a tag is not.
 if (!skipDocsCheck && !isPrerelease) {
   try {
     execFileSync(process.execPath, [path.join(root, "scripts/check-release-docs.mjs"), version], {

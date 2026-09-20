@@ -13,7 +13,7 @@ disagrees, so a green `check:release-docs` is a precondition, not a substitute.
 | Script | Alias | Purpose |
 |---|---|---|
 | `release.mjs` | `node scripts/release.mjs <version> [--tag]` | Bump every workspace version surface, commit, and optionally create the `vX.Y.Z` tag the Release workflow builds from |
-| `check-release-docs.mjs` | `pnpm check:release-docs` | Verify the changelog, its test list, `APP_VERSION`, workspace versions, Cargo versions, and both README release lines agree |
+| `check-release-docs.mjs` | `pnpm check:release-docs` | Verify `APP_VERSION`, workspace versions, Cargo versions, the bundled models.dev catalog, and both README release lines agree |
 | `check-agent-policy-sync.mjs` | `pnpm check:agent-policy` | Verify `AGENTS.md` and `CLAUDE.md` share the same `Policy-Sync` token, cross-references, and non-negotiable policy anchors |
 | `check-marketplace-catalog.mjs` | `pnpm check:marketplace -- --url <url> --plugin <id>` | Marketplace catalog preflight; rejects a version record missing a checksum, package URL, size, or permissions, and a catalog `author` that is not a string |
 | `check-style-tokens.mjs` | run by the desktop `lint` script | Fail renderer styles that hardcode values instead of design-system tokens |
@@ -23,7 +23,7 @@ disagrees, so a green `check:release-docs` is a precondition, not a substitute.
 | Script | Alias | Purpose |
 |---|---|---|
 | `notarize-and-staple-macos-release-dmg.sh` | `scripts/notarize-and-staple-macos-release-dmg.sh [release-dir]` | Submit the single DMG a native macOS job produced to Apple's notary service (`xcrun notarytool submit --wait`), require `status: Accepted`, then attach and validate the ticket (`xcrun stapler staple` / `validate`); run by the Release workflow when `sign_macos` is set. electron-builder only notarizes the `.app`, so the DMG needs this separate submission |
-| `verify-macos-release.sh` | `scripts/verify-macos-release.sh [release-dir]` | Fail unless the one `PI-Desktop.app` and DMG under the release directory are Developer ID-signed, notarized, and stapled; run by the Release workflow after stapling |
+| `verify-macos-release.sh` | `scripts/verify-macos-release.sh [release-dir]` | Fail unless the one `Pi-Desktop-Next.app` and DMG under the release directory are Developer ID-signed, notarized, and stapled; run by the Release workflow after stapling |
 | `macos-signing-diagnostics.sh` | `scripts/macos-signing-diagnostics.sh [--require-identity]` | Print the non-secret signing baseline before packaging (system, `codesign`, keychain identities/list/default, Xcode notary tools, Apple timestamp reachability). Informational by default, because the Developer ID identity is imported from `CSC_LINK` during packaging; `--require-identity` makes a missing Developer ID fatal |
 | `macos-bundle-inventory.mjs` | `node scripts/macos-bundle-inventory.mjs <app-or-release-dir>` | Count what the signing phase has to touch: entries, Mach-O binaries, `.dylib`/`.node`/frameworks/nested bundles, per-directory cost, and the largest binaries (`signing-candidates`). Informational; run after every macOS package build |
 | `macos-signing-watchdog.mjs` | `node scripts/macos-signing-watchdog.mjs [options] -- <command>` | Run a long silent phase (`electron-builder` signing, `notarytool submit --wait`) with a heartbeat, phase tracking, stall diagnostics (last file, `ps` state, codesign log tail), per-file codesign timings, and a hard timeout that fails instead of hanging; it forwards the child output and exit code unchanged and redacts `CSC_KEY_PASSWORD`/`APPLE_APP_SPECIFIC_PASSWORD`/`CSC_LINK` values plus `--password` arguments |
@@ -68,9 +68,9 @@ and on manual dispatch, skipping both when a change touches only `docs/**` or
 - **Rust host-core test** — `cargo test -p host-core --locked`
 
 `.github/workflows/docs-check.yml` covers the paths `ci.yml` ignores: it runs
-`pnpm docs:check` (the docs locale pair check) when `docs/**`, the READMEs, the
-shared changelog sources, or the check scripts change. `check:release-docs` is
-deliberately not in CI because it fails on rc versions by design.
+`pnpm docs:check` (the docs locale pair check) when `docs/**`, the READMEs, or
+the check scripts change. `check:release-docs` is deliberately not in CI
+because it fails on rc versions by design.
 
 `.github/workflows/release.yml` builds on a `v*.*.*` tag. A `verify` job first
 repeats the `ci.yml` checks (a tag push does not trigger `ci.yml`), and the

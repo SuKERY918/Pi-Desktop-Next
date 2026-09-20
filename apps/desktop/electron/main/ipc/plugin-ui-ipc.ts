@@ -19,7 +19,7 @@ export type PluginUiIpcDependencies = {
   pluginPanels: PluginPanelHost;
   pluginActiveInProject: (pluginId: string, projectPath: string | null | undefined) => boolean;
   currentWorkspacePath: () => string | null;
-  getUpdaterLocale: () => string;
+  getUiLocale: () => string;
   getPluginPanelTheme: () => PluginPanelTheme;
 };
 
@@ -32,7 +32,7 @@ export function registerPluginUiIpc({
   pluginPanels,
   pluginActiveInProject,
   currentWorkspacePath,
-  getUpdaterLocale,
+  getUiLocale,
   getPluginPanelTheme,
 }: PluginUiIpcDependencies): void {
   const handle = (channel: string, fn: (...args: any[]) => Promise<any>) => {
@@ -50,8 +50,8 @@ export function registerPluginUiIpc({
     if (!htmlPath) throw new Error("plugin panel must stay inside the plugin");
     await pluginPanels.open({
       pluginId: id,
-      title: resolvePluginLocalizedString(manifest.ui.title, getUpdaterLocale(), manifest.name),
-      locale: getUpdaterLocale(),
+      title: resolvePluginLocalizedString(manifest.ui.title, getUiLocale(), manifest.name),
+      locale: getUiLocale(),
       theme: getPluginPanelTheme(),
       shape: manifest.ui.shape,
       alwaysOnTop: manifest.ui.alwaysOnTop,
@@ -87,7 +87,7 @@ export function registerPluginUiIpc({
           pluginId,
           viewId: view.id,
           ref: pluginViewKey(pluginId, view.id),
-          title: resolvePluginLocalizedString(view.title, getUpdaterLocale(), view.id),
+          title: resolvePluginLocalizedString(view.title, getUiLocale(), view.id),
           pluginName: loaded.manifest.name,
           icon: view.icon,
           order: Number.isFinite(view.order) ? Number(view.order) : index,
@@ -131,8 +131,8 @@ export function registerPluginUiIpc({
         const currentBlur = typeof stored === "number" && Number.isInteger(stored) && stored >= 0 && stored <= 20 ? stored : blur.default;
         cards.push({
           themeId: namespacedThemeId,
-          label: resolvePluginLocalizedString(card.label, getUpdaterLocale(), card.themeId),
-          description: resolvePluginLocalizedString(card.description, getUpdaterLocale(), ""),
+          label: resolvePluginLocalizedString(card.label, getUiLocale(), card.themeId),
+          description: resolvePluginLocalizedString(card.description, getUiLocale(), ""),
           previewUrl: themeAssetUrl(pluginId, previewAsset),
           blur: currentBlur,
           blurDefault: blur.default,
@@ -143,11 +143,11 @@ export function registerPluginUiIpc({
         pluginId,
         destinationId: scenicThemes.id,
         ref: pluginViewKey(pluginId, scenicThemes.id),
-        label: resolvePluginLocalizedString(scenicThemes.label, getUpdaterLocale(), scenicThemes.id),
-        description: resolvePluginLocalizedString(scenicThemes.description, getUpdaterLocale(), ""),
+        label: resolvePluginLocalizedString(scenicThemes.label, getUiLocale(), scenicThemes.id),
+        description: resolvePluginLocalizedString(scenicThemes.description, getUiLocale(), ""),
         pluginName: loaded.manifest.name,
         icon: "palette",
-        keywords: (scenicThemes.keywords ?? []).map((keyword) => resolvePluginLocalizedString(keyword, getUpdaterLocale(), "")),
+        keywords: (scenicThemes.keywords ?? []).map((keyword) => resolvePluginLocalizedString(keyword, getUiLocale(), "")),
         themes: cards,
       });
     }
@@ -207,7 +207,7 @@ export function registerPluginUiIpc({
       pluginViews.open({
         pluginId,
         viewId,
-        locale: getUpdaterLocale(),
+        locale: getUiLocale(),
         theme: getPluginPanelTheme(),
         htmlPath,
         netDomains: loaded.manifest.net?.domains?.map((domain) => String(domain)),

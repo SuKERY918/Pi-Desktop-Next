@@ -299,7 +299,7 @@ pub async fn serve(state: Arc<Mutex<AppState>>) -> Result<()> {
         .map_err(|error| anyhow!("host stdout writer unavailable: {error}"))?;
     // Electron's RegisterHotKey cannot claim Windows' Alt+Space system-menu
     // chord. Keep the native fallback beside the host transport so it remains
-    // active even when PI-Desktop is unfocused.
+    // active even when Pi-Desktop-Next is unfocused.
     crate::keyboard::start(tx.clone());
     let (input_tx, mut input_rx) = mpsc::unbounded_channel::<StdinEvent>();
     let _stdin_reader = match spawn_stdin_reader(input_tx) {

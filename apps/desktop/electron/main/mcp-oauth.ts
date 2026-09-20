@@ -173,7 +173,7 @@ export class McpOAuthManager {
           params: {
             protocolVersion: "2025-06-18",
             capabilities: {},
-            clientInfo: { name: "PI-Desktop", version: "1" },
+            clientInfo: { name: "Pi-Desktop-Next", version: "1" },
           },
         }),
       });
@@ -288,7 +288,7 @@ export class McpOAuthManager {
   async registerClient(
     registrationEndpoint: string,
     redirectUris: string | string[],
-    clientName = "PI-Desktop",
+    clientName = "Pi-Desktop-Next",
   ): Promise<{ clientId: string; clientSecret?: string }> {
     assertTlsProtectedUrl(registrationEndpoint, "registration_endpoint");
     const uris = Array.isArray(redirectUris) ? redirectUris : [redirectUris];
@@ -575,7 +575,7 @@ export class McpOAuthManager {
             res.end(
               this.renderHtml(
                 true,
-                "Authorization successful! You can close this tab and return to PI-Desktop.",
+                "Authorization successful! You can close this tab and return to Pi-Desktop-Next.",
               ),
             );
 

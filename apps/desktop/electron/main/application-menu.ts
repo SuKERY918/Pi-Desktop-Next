@@ -77,7 +77,6 @@ export function buildApplicationMenuTemplate({
       label: APP_NAME,
       submenu: [
         { role: "about" },
-        appCommand(labels.menu.checkForUpdates, "checkForUpdates", dispatch),
         { type: "separator" },
         appCommand(
           labels.menu.settings,
@@ -221,16 +220,6 @@ export function buildApplicationMenuTemplate({
       submenu: [
         appCommand(labels.menu.appHelp, "openHelp", dispatch),
         appCommand(labels.menu.openLogs, "openLogs", dispatch),
-        ...(!isMac
-          ? ([
-              { type: "separator" },
-              appCommand(
-                labels.menu.checkForUpdates,
-                "checkForUpdates",
-                dispatch,
-              ),
-            ] satisfies MenuItemConstructorOptions[])
-          : []),
       ],
     },
   );

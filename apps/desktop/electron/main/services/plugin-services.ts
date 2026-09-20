@@ -70,7 +70,7 @@ export type PluginServicesDependencies = {
   showPluginNativeNotification: (
     input: PluginNativeNotificationInput,
   ) => Promise<PluginNativeNotificationResult>;
-  getUpdaterLocale: () => string;
+  getUiLocale: () => string;
   getPluginPanelTheme: () => "light" | "dark";
   getAppearance: () => PluginAppearance;
   getWorkspacePath: () => string | null;
@@ -92,7 +92,7 @@ export function createPluginServices({
   getPluginNotificationPermission,
   requestPluginNotificationPermission,
   showPluginNativeNotification,
-  getUpdaterLocale,
+  getUiLocale,
   getPluginPanelTheme,
   getAppearance,
   getWorkspacePath,
@@ -234,12 +234,12 @@ export function createPluginServices({
       clipboardHistory.recordText(value);
     },
     readClipboardHistory: async () => clipboardHistory.getHistory(),
-    getLocale: () => getUpdaterLocale(),
+    getLocale: () => getUiLocale(),
     getAppearance: () => getAppearance(),
     openPanel: async (request) => {
       await pluginPanels.open({
         ...request,
-        locale: getUpdaterLocale(),
+        locale: getUiLocale(),
         theme: getPluginPanelTheme(),
       });
     },
@@ -258,14 +258,14 @@ export function createPluginServices({
     // there is no window in which the access happens before consent.
     confirmFsAccess: createFsConsentService({
       getWindow: () => getMainWindow(),
-      getLocale: () => getUpdaterLocale(),
+      getLocale: () => getUiLocale(),
     }),
     // A dangerous desktop operation (session delete, permission-mode change,
     // tool approval) requested by a plugin is decided by the user in a native
     // dialog that names the catalog operation, never plugin-authored text.
     confirmDesktopControl: createDesktopConsentService({
       getWindow: () => getMainWindow(),
-      getLocale: () => getUpdaterLocale(),
+      getLocale: () => getUiLocale(),
     }),
     // The OS trash is what makes a plugin delete recoverable, and it is the
     // reason none of the user's data is copied anywhere by us.

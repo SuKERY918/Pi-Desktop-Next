@@ -60,7 +60,6 @@ import {
   modelConfigFromModelsDev,
 } from "./models-dev-catalog";
 import { VendorOAuth } from "./oauth";
-import { AppUpdaterController } from "./updater";
 import { catalogs, resolveLocale } from "@pi-desktop/i18n";
 import {
   baseWindowBounds,
@@ -577,8 +576,8 @@ const inflightCheckpointer = new InflightCheckpointer(async (checkpoint) => {
   );
 });
 
-/** Product UI locale for shipped-locale update notes (mirrored from settings). */
-let updaterLocale = "en";
+/** Product UI locale, mirrored from settings and shared with plugin surfaces. */
+let uiLocale = "en";
 type PluginPanelTheme = "light" | "dark";
 let pluginPanelTheme: PluginPanelTheme = nativeTheme.shouldUseDarkColors
   ? "dark"
@@ -587,14 +586,6 @@ let pluginPanelTheme: PluginPanelTheme = nativeTheme.shouldUseDarkColors
 let appThemePreference: string = "system";
 /** Last appearance broadcast to plugin panels; avoids redundant pushes. */
 let broadcastAppearanceSignature = "";
-
-const updater = new AppUpdaterController({
-  logger,
-  send: sendToRenderer,
-  currentVersion: APP_VERSION,
-  isPackaged: !isDevelopmentBuild,
-  getLocale: () => updaterLocale,
-});
 
 /**
  * Vendor-account logins. Holds the pi-ai credential plumbing so tokens stay in
@@ -643,7 +634,7 @@ const pluginServices = createPluginServices({
   getPluginNotificationPermission,
   requestPluginNotificationPermission,
   showPluginNativeNotification,
-  getUpdaterLocale: () => updaterLocale,
+  getUiLocale: () => uiLocale,
   getPluginPanelTheme: () => pluginPanelTheme,
   getAppearance: () => {
     if (!applicationLifecycle) {
@@ -870,11 +861,11 @@ const applicationLifecycleState: ApplicationLifecycleState = {
 };
 
 const applicationAppearanceState: ApplicationAppearanceState = {
-  get updaterLocale() {
-    return updaterLocale;
+  get uiLocale() {
+    return uiLocale;
   },
-  set updaterLocale(value) {
-    updaterLocale = value;
+  set uiLocale(value) {
+    uiLocale = value;
   },
   get pluginPanelTheme() {
     return pluginPanelTheme;
@@ -922,7 +913,6 @@ applicationLifecycle = createApplicationLifecycle({
   pluginViews,
   plugins,
   logger,
-  refreshReleaseNotes: () => updater.refreshReleaseNotes(),
   applyPluginLauncherShortcut: applyPluginLauncherShortcutForLifecycle,
   applyToggleWindowShortcut: applyToggleWindowShortcutForLifecycle,
   broadcastPluginPanelEvent,
@@ -963,7 +953,7 @@ wirePluginThemeRuntimeServices({
 closeBehaviorRuntime = createCloseBehaviorRuntime({
   state: windowLifecycleState,
   dataDir,
-  getLocale: () => updaterLocale,
+  getLocale: () => uiLocale,
   createTray,
 });
 const {
@@ -1239,7 +1229,7 @@ runtimeLifecycle = createRuntimeLifecycle({
   rememberPluginScopes,
   refreshUserMcp,
   isQuitting: () => quitting,
-  getDisplayLocale: () => applicationAppearanceState.updaterLocale,
+  getDisplayLocale: () => applicationAppearanceState.uiLocale,
 });
 const { bootHostStatus, runtimeArch, bootBackends } = runtimeLifecycle;
 
@@ -1259,7 +1249,6 @@ function registerIpc() {
     getPluginLauncherWindow: () => pluginLauncherWindow,
     togglePluginLauncher,
     safeOpenExternal,
-    updater,
     dataDir,
     activeTurns,
     isTurnDispatchable,
@@ -1329,7 +1318,7 @@ function registerIpc() {
     pluginScopes,
     rememberPluginScopes,
     pluginPanels,
-    getUpdaterLocale: () => updaterLocale,
+    getUiLocale: () => uiLocale,
     getPluginPanelTheme: () => pluginPanelTheme,
     isDeveloperMode: () => developerMode,
     sendToRenderer,
@@ -1386,7 +1375,6 @@ registerApplicationStartup({
   state: startupState,
   dataDir,
   logger,
-  updater,
   modelsDevCatalog,
   plugins,
   activeTurns,
@@ -1483,7 +1471,6 @@ registerShutdownHandlers({
   mcpOAuth,
   browserPane,
   pluginViews,
-  updater,
   logger,
   confirmQuitDialog,
 });

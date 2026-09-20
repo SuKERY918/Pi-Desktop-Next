@@ -24,7 +24,6 @@ export type LogCategory =
   | "plugin"
   | "provider"
   | "persistence"
-  | "updater"
   | "diagnostics"
   | "runtime"
 

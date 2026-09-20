@@ -5,6 +5,8 @@
 Local-first desktop client for AI coding agents — your models, your machine, a native
 Windows acrylic glass shell.
 
+> 当前发布线：**0.15.x**（Early Preview）。
+
 ![深色主题](docs/image/app-screenshot-dark.png)
 
 ![浅色主题](docs/image/app-screenshot-light.png)
@@ -42,7 +44,7 @@ npx electron-vite build
 npx electron-builder --win nsis
 ```
 
-产物为 `apps/desktop/release/PI-Desktop-Setup-<version>.exe`。
+产物为 `apps/desktop/release/Pi-Desktop-Next-Setup-<version>.exe`。
 
 > **环境要求**：Node ≥ 22.19、pnpm ≥ 10、Rust 工具链。
 > 亚克力材质需要 Windows 11 22H2（build 22621）及以上；旧版 Windows 与 Linux 会自动回退为不透明窗口。
@@ -56,8 +58,11 @@ npx electron-builder --win nsis
 
 ## 来源与许可
 
-本项目基于 [vastsa/PI-Desktop](https://github.com/vastsa/PI-Desktop) 修改，遵循
-**LGPL-3.0**（见 [LICENSE](LICENSE)）。
+Pi-Desktop-Next 是上游项目 [vastsa/PI-Desktop](https://github.com/vastsa/PI-Desktop)
+的下游衍生版本，遵循 **LGPL-3.0**（见 [LICENSE](LICENSE)）。上游的版权与许可声明
+予以保留。
+
+Modifications: 2026, SuKERY918 (Pi-Desktop-Next)
 
 相对上游的主要改动：
 

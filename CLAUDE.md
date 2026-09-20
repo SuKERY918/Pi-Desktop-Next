@@ -2,13 +2,13 @@
 
 Policy-Sync: 2026-02-16.2
 
-Instructions for Claude Code CLI and Claude Cowork on PI-Desktop.
+Instructions for Claude Code CLI and Claude Cowork on Pi-Desktop-Next.
 
 **Authoritative policy:** [`AGENTS.md`](AGENTS.md). Read it before any non-trivial change. If this file and `AGENTS.md` disagree, follow `AGENTS.md`. Domain specs under `docs/spec/` remain authoritative for product behavior, protocols, and security boundaries.
 
 **Mirror sync:** This file condenses `AGENTS.md` for Claude Code. When policy changes, update both files, keep the shared non-negotiables aligned, and set the same `Policy-Sync:` token in both. Enforced by `pnpm check:agent-policy` (`scripts/check-agent-policy-sync.mjs`).
 
-PI-Desktop is released software with real users. Treat every change as production maintenance, not prototype work.
+Pi-Desktop-Next is released software with real users. Treat every change as production maintenance, not prototype work.
 
 Priority order when deciding what to do:
 
@@ -55,7 +55,7 @@ git worktree add \
 cd <worktree-path>
 ```
 
-Suggested worktree path: `../PI-Desktop-worktrees/<short-description>`.
+Suggested worktree path: `../Pi-Desktop-Next-worktrees/<short-description>`.
 
 Branch names: `feat/...`, `fix/...`, `docs/...`, `refactor/...`, `chore/...`.
 
