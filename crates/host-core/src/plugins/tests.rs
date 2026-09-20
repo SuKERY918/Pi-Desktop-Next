@@ -597,9 +597,7 @@ fn cached_catalog_is_scoped_to_the_source_that_fetched_it() {
         .unwrap();
         assert!(mgr.cached_catalog_matches_source(MIRROR_MARKET_CATALOG_URL));
         assert!(mgr.cached_catalog_matches_source(OFFICIAL_CHANNEL_CATALOG_URL));
-        assert!(!mgr.cached_catalog_matches_source(
-            "https://example.test/other/catalog.json"
-        ));
+        assert!(!mgr.cached_catalog_matches_source("https://example.test/other/catalog.json"));
     });
 }
 
